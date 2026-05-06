@@ -1,0 +1,28 @@
+# Week 1 - Day 1
+
+## SQL Practice
+
+This folder contains SQL practice queries using Employee, Department, and Project tables.
+
+## Topics Covered
+
+- Basic Queries
+- String Functions
+- Date Queries
+- Aggregate Functions
+- GROUP BY
+- HAVING Clause
+- ORDER BY
+- JOIN Queries
+- Subqueries
+- Correlated Queries
+
+## Files
+
+- queries.sql
+- outputs
+- README.md
+
+## Learning Outcome
+
+Practiced SQL queries, joins, grouping, aggregate functions, and subqueries.
