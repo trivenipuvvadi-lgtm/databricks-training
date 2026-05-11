@@ -1,0 +1,40 @@
+# SQL Practice - Day 2
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This folder contains SQL practice for Day 2 focused on join operations and unmatched row analysis in relational tables. It includes the starter schema, query solutions, and output results for a SQL joins assignment based on Employee, Department, and Project tables.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## Topics Covered
+
+- LEFT JOIN
+- RIGHT JOIN
+- FULL OUTER JOIN
+- Unmatched row identification
+- Multi-table join reporting
+- CROSS JOIN basics
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## Files
+
+- joins_starter.sql
+- queries.sql
+- outputs.txt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## Learning Focus
+
+This day focused on understanding how different join types behave when matching and non-matching rows exist between tables. Special attention was given to finding missing relationships and full join reporting across related tables.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## Notes
+
+- The dataset models Employee, Department, and Project tables.
+- The assignment includes SQL join-based questions and practice challenges.
+- FULL OUTER JOIN is part of the exercise focus, along with practical handling of unmatched records.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
