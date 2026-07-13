@@ -1,0 +1,225 @@
+                                                Phase 2 - SQL Using PySpark                                      
+
+Customers Table
++-----------+----------+---------+-----------------------------+------------+--------------+------------+-----+--------+
+|customer_id|first_name|last_name|email                        |phone_number|address       |city        |state|zip_code|
++-----------+----------+---------+-----------------------------+------------+--------------+------------+-----+--------+
+|1          |John      |Smith    |john.smith@domain.com        |555-0001    |123 Elm St    |Springfield |IL   |62701   |
+|2          |Emma      |Jones    |emma.jones@webmail.com       |555-0002    |456 Oak St    |Centerville |OH   |45459   |
+|3          |Olivia    |Brown    |olivia.brown@outlook.com     |555-0003    |789 Pine St   |Greenville  |SC   |29601   |
+|4          |Liam      |Johnson  |liam.johnson@gmail.com       |555-0004    |101 Maple St  |Riverside   |CA   |92501   |
+|5          |Noah      |Williams |noah.williams@yahoo.com      |555-0005    |202 Birch St  |Lakeside    |TX   |75001   |
+|6          |Alice     |Miller   |alice.miller@aol.com         |555-0006    |303 Cedar St  |Oakland     |CA   |94601   |
+|7          |Isabella  |Davis    |isabella.davis@icloud.com    |555-0007    |404 Spruce St |Boise       |ID   |83701   |
+|8          |James     |Martinez |james.martinez@live.com      |555-0008    |505 Walnut St |Des Moines  |IA   |50301   |
+|9          |Sophia    |Garcia   |sophia.garcia@zoho.com       |555-0009    |606 Cherry St |Albany      |NY   |12201   |
+|10         |Lucas     |Rodriguez|lucas.rodriguez@hotmail.com  |555-0010    |707 Maple St  |Portland    |OR   |97201   |
+|11         |Mia       |Lopez    |mia.lopez@mail.com           |555-0011    |808 Oak St    |Miami       |FL   |33101   |
+|12         |William   |Anderson |william.anderson@fastmail.com|555-0012    |909 Pine St   |Nashville   |TN   |37201   |
+|13         |Amelia    |Thomas   |amelia.thomas@protonmail.com |555-0013    |1010 Elm St   |Denver      |CO   |80201   |
+|14         |Ethan     |Taylor   |ethan.taylor@inbox.com       |555-0014    |1111 Birch St |Minneapolis |MN   |55401   |
+|15         |Harper    |Jackson  |harper.jackson@outlook.com   |555-0015    |1212 Cedar St |Seattle     |WA   |98101   |
+|16         |Jackson   |White    |jackson.white@ymail.com      |555-0016    |1313 Spruce St|Atlanta     |GA   |30301   |
+|17         |Charlotte |Harris   |charlotte.harris@webmail.com |555-0017    |1414 Walnut St|San Diego   |CA   |92101   |
+|18         |Oliver    |Martin   |oliver.martin@icloud.com     |555-0018    |1515 Cherry St|Indianapolis|IN   |46201   |
+|19         |Madison   |Thompson |madison.thompson@gmail.com   |555-0019    |1616 Maple St |Charlotte   |NC   |28201   |
+|20         |Elijah    |Garcia   |elijah.garcia@zoho.com       |555-0020    |1717 Oak St   |Detroit     |MI   |48201   |
++-----------+----------+---------+-----------------------------+------------+--------------+------------+-----+--------+
+only showing top 20 rows
+
+Sales Table
++-------+-----------+----------+----------+--------+------------+
+|sale_id|customer_id|product_id|sale_date |quantity|total_amount|
++-------+-----------+----------+----------+--------+------------+
+|1      |1          |1         |2024-01-15|2       |39.98       |
+|2      |1          |3         |2024-01-20|1       |29.99       |
+|3      |2          |2         |2024-01-16|1       |25.0        |
+|4      |2          |4         |2024-01-22|3       |89.97       |
+|5      |3          |5         |2024-01-17|2       |49.98       |
+|6      |4          |6         |2024-01-18|4       |119.96      |
+|7      |4          |7         |2024-01-25|1       |15.5        |
+|8      |5          |8         |2024-01-19|3       |66.75       |
+|9      |6          |9         |2024-01-20|2       |40.0        |
+|10     |7          |10        |2024-01-21|5       |110.95      |
+|11     |8          |11        |2024-01-22|1       |20.0        |
+|12     |9          |12        |2024-01-23|4       |79.96       |
+|13     |10         |13        |2024-01-24|2       |55.0        |
+|14     |11         |14        |2024-01-25|1       |25.0        |
+|15     |12         |15        |2024-01-26|3       |67.47       |
+|16     |13         |16        |2024-01-27|2       |34.0        |
+|17     |14         |17        |2024-01-28|1       |15.0        |
+|18     |15         |18        |2024-01-29|4       |92.0        |
+|19     |16         |19        |2024-01-30|3       |60.0        |
+|20     |17         |20        |2024-01-31|2       |40.0        |
++-------+-----------+----------+----------+--------+------------+
+only showing top 20 rows
+
+Customers Schema
+root
+ |-- customer_id: integer (nullable = true)
+ |-- first_name: string (nullable = true)
+ |-- last_name: string (nullable = true)
+ |-- email: string (nullable = true)
+ |-- phone_number: string (nullable = true)
+ |-- address: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- state: string (nullable = true)
+ |-- zip_code: integer (nullable = true)
+
+Sales Schema
+root
+ |-- sale_id: integer (nullable = true)
+ |-- customer_id: integer (nullable = true)
+ |-- product_id: integer (nullable = true)
+ |-- sale_date: date (nullable = true)
+ |-- quantity: integer (nullable = true)
+ |-- total_amount: double (nullable = true)
+
+
+Exercise 1 : Total Order Amount for Each Customer
+total_spend.show()
++-----------+------------------+
+|customer_id|       total_spend|
++-----------+------------------+
+|          1|             69.97|
+|          2|            114.97|
+|          3|             49.98|
+|          4|135.45999999999998|
+|          5|             66.75|
+|          6|              40.0|
+|          7|            110.95|
+|          8|              20.0|
+|          9|             79.96|
+|         10|              55.0|
+|         11|              25.0|
+|         12|             67.47|
+|         13|              34.0|
+|         14|              15.0|
+|         15|              92.0|
+|         16|              60.0|
+|         17|              40.0|
+|         18|             59.97|
+|         19|             29.99|
+|         20|             89.97|
++-----------+------------------+
+only showing top 20 rows
+
+
+Exercise 2 : Top 3 Customers by Total Spend
++-----------+------------------+
+|customer_id|       total_spend|
++-----------+------------------+
+|          4|135.45999999999998|
+|         22|            119.96|
+|          2|            114.97|
++-----------+------------------+
+
+
+Exercise 3 : Customers With No Orders
++-----------+----------+---------+--------------------+------------+-------------+------------+-----+--------+
+|customer_id|first_name|last_name|               email|phone_number|      address|        city|state|zip_code|
++-----------+----------+---------+--------------------+------------+-------------+------------+-----+--------+
+|         47|    Amelia|    James|amelia.james@live...|    555-0047|  4444 Oak St| San Antonio|   TX|   78202|
+|         48|     James|   Walker|james.walker@gmai...|    555-0048| 4545 Pine St|      Dallas|   TX|   75201|
+|         49|     Elena|     Gray| elena.gray@zoho.com|    555-0049|  4646 Elm St|     Detroit|   MI|   48202|
+|         50|     Henry| Phillips|henry.phillips@ao...|    555-0050|4747 Birch St|Indianapolis|   IN|   46202|
++-----------+----------+---------+--------------------+------------+-------------+------------+-----+--------+
+
+
+Exercise 4 : City-wise Total Revenue
++-----------+------------------+
+|       city|     total_revenue|
++-----------+------------------+
+|  Riverside|135.45999999999998|
+|     Boston|            119.96|
+|Centerville|            114.97|
+|  Las Vegas|            112.47|
+|      Boise|            110.95|
+|   New York|            109.96|
+|    Seattle|            104.99|
+|  St. Louis|             99.95|
+|  San Diego|              95.5|
+| Washington|              92.0|
+|    Detroit|             89.97|
+|    Memphis|             89.96|
+|San Antonio|             79.96|
+|     Albany|             79.96|
+|     Denver|              74.0|
+|   Columbus|             71.97|
+|Springfield|             69.97|
+|  Charlotte|             69.97|
+|  Nashville|             67.47|
+|  Milwaukee|             66.75|
++-----------+------------------+
+only showing top 20 rows
+
+
+Exercise 5 : Average Order Amount per Customer
++-----------+-----------------+
+|customer_id|    average_order|
++-----------+-----------------+
+|          1|           34.985|
+|          2|           57.485|
+|          3|            49.98|
+|          4|67.72999999999999|
+|          5|            66.75|
+|          6|             40.0|
+|          7|           110.95|
+|          8|             20.0|
+|          9|            79.96|
+|         10|             55.0|
+|         11|             25.0|
+|         12|            67.47|
+|         13|             34.0|
+|         14|             15.0|
+|         15|             92.0|
+|         16|             60.0|
+|         17|             40.0|
+|         18|           29.985|
+|         19|            29.99|
+|         20|            89.97|
++-----------+-----------------+
+only showing top 20 rows
+
+
+Exercise 6 : Customers With More Than One Order
++-----------+-----------+
+|customer_id|order_count|
++-----------+-----------+
+|          1|          2|
+|          4|          2|
+|          2|          2|
+|         18|          2|
++-----------+-----------+
+
+
+Exercise 7 : Sort Customers by Total Spend Descending
++-----------+----------+---------+------------+------------------+
+|customer_id|first_name|last_name|city        |total_spend       |
++-----------+----------+---------+------------+------------------+
+|4          |Liam      |Johnson  |Riverside   |135.45999999999998|
+|22         |Henry     |Moore    |Boston      |119.96            |
+|2          |Emma      |Jones    |Centerville |114.97            |
+|7          |Isabella  |Davis    |Boise       |110.95            |
+|45         |Charlotte |Wood     |New York    |109.96            |
+|24         |Daniel    |Walker   |St. Louis   |99.95             |
+|34         |Lucas     |Mitchell |Washington  |92.0              |
+|15         |Harper    |Jackson  |Seattle     |92.0              |
+|20         |Elijah    |Garcia   |Detroit     |89.97             |
+|39         |Aria      |Davis    |Memphis     |89.96             |
+|9          |Sophia    |Garcia   |Albany      |79.96             |
+|27         |Sofia     |Young    |San Antonio |79.96             |
+|30         |David     |Scott    |Columbus    |71.97             |
+|1          |John      |Smith    |Springfield |69.97             |
+|41         |Penelope  |Roberts  |Las Vegas   |67.47             |
+|12         |William   |Anderson |Nashville   |67.47             |
+|26         |Matthew   |Allen    |Milwaukee   |66.75             |
+|5          |Noah      |Williams |Lakeside    |66.75             |
+|35         |Harper    |Mitchell |Philadelphia|60.0              |
+|16         |Jackson   |White    |Atlanta     |60.0              |
++-----------+----------+---------+------------+------------------+
+only showing top 20 rows
+
+
+Phase 2 Completed Successfully
+
