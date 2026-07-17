@@ -1,0 +1,657 @@
+# SQL Set Operators
+
+This repository contains SQL queries demonstrating the use of **Set Operators** in SQL using sample employee, customer, and order tables.
+
+## Tables Used
+
+- CurrentEmployees
+- FormerEmployees
+- DomesticCustomers
+- InternationalCustomers
+- OnlineOrders
+- StoreOrders
+
+---
+
+## UNION
+
+### 1. Display all employee names from current and former employees without duplicates.
+
+```sql
+SELECT EmployeeName
+FROM CurrentEmployees
+UNION
+SELECT EmployeeName
+FROM FormerEmployees;
+```
+
+### 2. Display all departments from both employee tables.
+
+```sql
+SELECT Department
+FROM CurrentEmployees
+UNION
+SELECT Department
+FROM FormerEmployees;
+```
+
+### 3. Display all customer names from domestic and international customers.
+
+```sql
+SELECT CustomerName
+FROM DomesticCustomers
+UNION
+SELECT CustomerName
+FROM InternationalCustomers;
+```
+
+### 4. Display all customer cities without duplicates.
+
+```sql
+SELECT City
+FROM DomesticCustomers
+UNION
+SELECT City
+FROM InternationalCustomers;
+```
+
+### 5. Display all order amounts from both order tables without duplicates.
+
+```sql
+SELECT Amount
+FROM OnlineOrders
+UNION
+SELECT Amount
+FROM StoreOrders;
+```
+
+### 6. Display all employee IDs and names.
+
+```sql
+SELECT EmployeeID, EmployeeName
+FROM CurrentEmployees
+UNION
+SELECT EmployeeID, EmployeeName
+FROM FormerEmployees;
+```
+
+### 7. Display all customer IDs and names.
+
+```sql
+SELECT CustomerID, CustomerName
+FROM DomesticCustomers
+UNION
+SELECT CustomerID, CustomerName
+FROM InternationalCustomers;
+```
+
+### 8. Display all salaries without duplicates.
+
+```sql
+SELECT Salary
+FROM CurrentEmployees
+UNION
+SELECT Salary
+FROM FormerEmployees;
+```
+
+### 9. Display all order IDs.
+
+```sql
+SELECT OrderID
+FROM OnlineOrders
+UNION
+SELECT OrderID
+FROM StoreOrders;
+```
+
+### 10. Combine employee and former employee department lists.
+
+```sql
+SELECT Department
+FROM CurrentEmployees
+UNION
+SELECT Department
+FROM FormerEmployees;
+```
+
+### 11. Combine employee names with customer names into one list.
+
+```sql
+SELECT EmployeeName AS Name
+FROM CurrentEmployees
+UNION
+SELECT CustomerName
+FROM DomesticCustomers;
+```
+
+### 12. Create a unique list of all people and organizations.
+
+```sql
+SELECT EmployeeName
+FROM CurrentEmployees
+UNION
+SELECT EmployeeName
+FROM FormerEmployees
+UNION
+SELECT CustomerName
+FROM DomesticCustomers
+UNION
+SELECT CustomerName
+FROM InternationalCustomers;
+```
+
+### 13. Display all departments from both tables in alphabetical order.
+
+```sql
+SELECT Department
+FROM CurrentEmployees
+UNION
+SELECT Department
+FROM FormerEmployees
+ORDER BY Department;
+```
+
+### 14. Combine customer cities and employee departments into one result set.
+
+```sql
+SELECT City AS Details
+FROM DomesticCustomers
+UNION
+SELECT Department
+FROM CurrentEmployees;
+```
+
+### 15. Display all IDs from employees and customers.
+
+```sql
+SELECT EmployeeID AS ID
+FROM CurrentEmployees
+UNION
+SELECT CustomerID
+FROM DomesticCustomers;
+
+---
+
+## UNION ALL
+
+### 1. Display all employee names including duplicates.
+
+```sql
+SELECT EmployeeName
+FROM CurrentEmployees
+UNION ALL
+SELECT EmployeeName
+FROM FormerEmployees;
+```
+---
+
+## UNION ALL
+
+### 16. Display all employee names including duplicates.
+
+```sql
+SELECT EmployeeName
+FROM CurrentEmployees
+UNION ALL
+SELECT EmployeeName
+FROM FormerEmployees;
+```
+
+### 17. Display all departments including duplicate values.
+
+```sql
+SELECT Department
+FROM CurrentEmployees
+UNION ALL
+SELECT Department
+FROM FormerEmployees;
+```
+
+### 18. Display all customer names including duplicates.
+
+```sql
+SELECT CustomerName
+FROM DomesticCustomers
+UNION ALL
+SELECT CustomerName
+FROM InternationalCustomers;
+```
+
+### 19. Display all customer cities including duplicates.
+
+```sql
+SELECT City
+FROM DomesticCustomers
+UNION ALL
+SELECT City
+FROM InternationalCustomers;
+```
+
+### 20. Display all order amounts including duplicate values.
+
+```sql
+SELECT Amount
+FROM OnlineOrders
+UNION ALL
+SELECT Amount
+FROM StoreOrders;
+```
+
+### 21. Count total rows returned using UNION ALL.
+
+```sql
+SELECT COUNT(*) AS TotalRows
+FROM (
+    SELECT EmployeeName
+    FROM CurrentEmployees
+    UNION ALL
+    SELECT EmployeeName
+    FROM FormerEmployees
+) AS Employees;
+```
+
+### 22. Display all customer records including duplicates.
+
+```sql
+SELECT *
+FROM DomesticCustomers
+UNION ALL
+SELECT *
+FROM InternationalCustomers;
+```
+
+### 23. Display all salaries including duplicates.
+
+```sql
+SELECT Salary
+FROM CurrentEmployees
+UNION ALL
+SELECT Salary
+FROM FormerEmployees;
+```
+
+### 24. Display all customer cities.
+
+```sql
+SELECT City
+FROM DomesticCustomers
+UNION ALL
+SELECT City
+FROM InternationalCustomers;
+```
+
+### 25. Display all order amounts.
+
+```sql
+SELECT Amount
+FROM OnlineOrders
+UNION ALL
+SELECT Amount
+FROM StoreOrders;
+```
+
+### 26. Combine all employee and former employee records with duplicates.
+
+```sql
+SELECT *
+FROM CurrentEmployees
+UNION ALL
+SELECT *
+FROM FormerEmployees;
+```
+
+### 27. Display all order records.
+
+```sql
+SELECT *
+FROM OnlineOrders
+UNION ALL
+SELECT *
+FROM StoreOrders;
+```
+
+### 28. Display all customer records.
+
+```sql
+SELECT *
+FROM DomesticCustomers
+UNION ALL
+SELECT *
+FROM InternationalCustomers;
+```
+
+### 29. Display employee names with a new column indicating the source table.
+
+```sql
+SELECT EmployeeName, 'Current' AS Source
+FROM CurrentEmployees
+UNION ALL
+SELECT EmployeeName, 'Former' AS Source
+FROM FormerEmployees;
+```
+
+### 30. Combine online and store orders with a source column.
+
+```sql
+SELECT OrderID, CustomerID, Amount, 'Online' AS Source
+FROM OnlineOrders
+UNION ALL
+SELECT OrderID, CustomerID, Amount, 'Store' AS Source
+FROM StoreOrders;
+```
+## EXCEPT (MySQL using NOT EXISTS)
+### 31. Find current employees who are not former employees.
+
+```sql
+SELECT *
+FROM CurrentEmployees c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM FormerEmployees f
+    WHERE c.EmployeeID = f.EmployeeID
+);
+```
+
+### 32. Find former employees who are not current employees.
+
+```sql
+SELECT *
+FROM FormerEmployees f
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM CurrentEmployees c
+    WHERE f.EmployeeID = c.EmployeeID
+);
+```
+
+### 33. Find domestic customers not present internationally.
+
+```sql
+SELECT *
+FROM DomesticCustomers d
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM InternationalCustomers i
+    WHERE d.CustomerID = i.CustomerID
+);
+```
+
+### 34. Find online orders not present in store orders.
+
+```sql
+SELECT *
+FROM OnlineOrders o
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM StoreOrders s
+    WHERE o.OrderID = s.OrderID
+);
+```
+
+### 35. Find departments that exist only in CurrentEmployees.
+
+```sql
+SELECT DISTINCT Department
+FROM CurrentEmployees
+WHERE Department NOT IN (
+    SELECT Department
+    FROM FormerEmployees
+);
+```
+
+### 36. Find employee IDs existing only in CurrentEmployees.
+
+```sql
+SELECT EmployeeID
+FROM CurrentEmployees c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM FormerEmployees f
+    WHERE c.EmployeeID = f.EmployeeID
+);
+```
+
+### 37. Find employee IDs existing only in FormerEmployees.
+
+```sql
+SELECT EmployeeID
+FROM FormerEmployees f
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM CurrentEmployees c
+    WHERE f.EmployeeID = c.EmployeeID
+);
+```
+
+### 38. Find customer IDs existing only in DomesticCustomers.
+
+```sql
+SELECT CustomerID
+FROM DomesticCustomers d
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM InternationalCustomers i
+    WHERE d.CustomerID = i.CustomerID
+);
+```
+
+### 39. Find customer IDs existing only in InternationalCustomers.
+
+```sql
+SELECT CustomerID
+FROM InternationalCustomers i
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM DomesticCustomers d
+    WHERE i.CustomerID = d.CustomerID
+);
+```
+
+### 40. Find online order IDs not found in StoreOrders.
+
+```sql
+SELECT OrderID
+FROM OnlineOrders o
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM StoreOrders s
+    WHERE o.OrderID = s.OrderID
+);
+```
+
+### 41. Find customers who ordered online but never ordered in-store.
+
+```sql
+SELECT CustomerID
+FROM OnlineOrders o
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM StoreOrders s
+    WHERE o.CustomerID = s.CustomerID
+);
+```
+
+### 42. Find customers who ordered in-store but never ordered online.
+
+```sql
+SELECT CustomerID
+FROM StoreOrders s
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM OnlineOrders o
+    WHERE s.CustomerID = o.CustomerID
+);
+```
+
+### 43. Find employee names existing only in CurrentEmployees.
+
+```sql
+SELECT EmployeeName
+FROM CurrentEmployees c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM FormerEmployees f
+    WHERE c.EmployeeID = f.EmployeeID
+);
+```
+
+### 44. Find departments unique to FormerEmployees.
+
+```sql
+SELECT DISTINCT Department
+FROM FormerEmployees
+WHERE Department NOT IN (
+    SELECT Department
+    FROM CurrentEmployees
+);
+```
+
+### 45. Find customer cities unique to DomesticCustomers.
+
+```sql
+SELECT DISTINCT City
+FROM DomesticCustomers
+WHERE City NOT IN (
+    SELECT City
+    FROM InternationalCustomers
+);
+``
+
+## INTERSECT (MySQL using INNER JOIN)
+
+### 46. Find employees present in both tables.
+
+```sql
+SELECT c.*
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.EmployeeID = f.EmployeeID;
+```
+
+### 47. Find common departments.
+
+```sql
+SELECT DISTINCT c.Department
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.Department = f.Department;
+```
+
+### 48. Find customers present in both customer tables.
+
+```sql
+SELECT d.*
+FROM DomesticCustomers d
+INNER JOIN InternationalCustomers i
+ON d.CustomerID = i.CustomerID;
+```
+
+### 49. Find common cities.
+
+```sql
+SELECT DISTINCT d.City
+FROM DomesticCustomers d
+INNER JOIN InternationalCustomers i
+ON d.City = i.City;
+```
+
+### 50. Find common orders.
+
+```sql
+SELECT o.*
+FROM OnlineOrders o
+INNER JOIN StoreOrders s
+ON o.OrderID = s.OrderID;
+```
+
+### 51. Find employee IDs common to both tables.
+
+```sql
+SELECT c.EmployeeID
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.EmployeeID = f.EmployeeID;
+```
+
+### 52. Find common customer IDs.
+
+```sql
+SELECT d.CustomerID
+FROM DomesticCustomers d
+INNER JOIN InternationalCustomers i
+ON d.CustomerID = i.CustomerID;
+```
+
+### 53. Find common order IDs.
+
+```sql
+SELECT o.OrderID
+FROM OnlineOrders o
+INNER JOIN StoreOrders s
+ON o.OrderID = s.OrderID;
+```
+
+### 54. Find common salaries.
+
+```sql
+SELECT DISTINCT c.Salary
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.Salary = f.Salary;
+```
+
+### 55. Find common departments.
+
+```sql
+SELECT DISTINCT c.Department
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.Department = f.Department;
+```
+
+### 56. Find customers who ordered both online and in-store.
+
+```sql
+SELECT DISTINCT o.CustomerID
+FROM OnlineOrders o
+INNER JOIN StoreOrders s
+ON o.CustomerID = s.CustomerID;
+```
+
+### 57. Find employees existing in both tables.
+
+```sql
+SELECT c.EmployeeID,
+       c.EmployeeName
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.EmployeeID = f.EmployeeID;
+```
+
+### 58. Find departments appearing in both employee tables.
+
+```sql
+SELECT DISTINCT c.Department
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.Department = f.Department;
+```
+
+### 59. Find customer names appearing in both customer tables.
+
+```sql
+SELECT d.CustomerName
+FROM DomesticCustomers d
+INNER JOIN InternationalCustomers i
+ON d.CustomerID = i.CustomerID;
+```
+
+### 60. Find common salaries between current and former employees.
+
+```sql
+SELECT DISTINCT c.Salary
+FROM CurrentEmployees c
+INNER JOIN FormerEmployees f
+ON c.Salary = f.Salary;
+```
