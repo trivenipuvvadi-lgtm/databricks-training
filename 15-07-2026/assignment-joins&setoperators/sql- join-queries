@@ -1,0 +1,635 @@
+-- ===========================================================
+-- SQL JOIN ASSIGNMENT
+-- ===========================================================
+-- Database : JoinsAssignment
+-- Author   : Your Name
+-- Description : SQL JOIN Queries (Basic, Intermediate, Advanced)
+-- ===========================================================
+
+
+-- ===========================================================
+-- INNER JOIN
+-- ===========================================================
+
+-- 1. Display Employee Names with Department Names
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+-- 2. Display Project Names with Department Names
+SELECT p.ProjectName, d.DepartmentName
+FROM Projects p
+INNER JOIN Departments d
+ON p.DepartmentID = d.DepartmentID;
+
+
+-- 3. Display Employees Along with Their Assigned Projects
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- 4. Display Employee Salary with Department Location
+SELECT e.EmployeeName, e.Salary, d.Location
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+-- 5. Display Employee ID, Employee Name, and Project Name
+SELECT e.EmployeeID, e.EmployeeName, p.ProjectName
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+
+-- ===========================================================
+-- LEFT JOIN
+-- ===========================================================
+
+-- 1. Display All Employees with Their Department Names
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+LEFT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+-- 2. Display All Departments with Their Employees
+SELECT d.DepartmentName, e.EmployeeName
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID;
+
+
+-- 3. Display All Projects with Their Department Names
+SELECT p.ProjectName, d.DepartmentName
+FROM Projects p
+LEFT JOIN Departments d
+ON p.DepartmentID = d.DepartmentID;
+
+
+-- 4. Display Employees with Their Assigned Projects
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+LEFT JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- 5. Display All Employees Including Those Without Projects
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+LEFT JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+-- ===========================================================
+-- RIGHT JOIN
+-- ===========================================================
+
+-- 1. Display All Departments with Their Employees
+SELECT d.DepartmentName, e.EmployeeName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+-- 2. Display All Projects with Their Assigned Employees
+SELECT p.ProjectName, e.EmployeeName
+FROM EmployeeProjects ep
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+LEFT JOIN Employees e
+ON ep.EmployeeID = e.EmployeeID;
+
+
+-- 3. Display All Departments Including Those Without Employees
+SELECT d.DepartmentName, e.EmployeeName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+-- 4. Display All Projects with Their Department Names
+SELECT p.ProjectName, d.DepartmentName
+FROM Departments d
+RIGHT JOIN Projects p
+ON d.DepartmentID = p.DepartmentID;
+
+
+-- 5. Display All Projects Including Those Without Assigned Employees
+SELECT p.ProjectName, e.EmployeeName
+FROM EmployeeProjects ep
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+LEFT JOIN Employees e
+ON ep.EmployeeID = e.EmployeeID;
+
+
+
+-- ===========================================================
+-- FULL JOIN (Using UNION in MySQL)
+-- ===========================================================
+
+-- 1. Display All Employees and Departments
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+LEFT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+
+UNION
+
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID;
+
+
+-- 2. Display All Departments and Projects
+SELECT d.DepartmentName, p.ProjectName
+FROM Departments d
+LEFT JOIN Projects p
+ON d.DepartmentID = p.DepartmentID
+
+UNION
+
+SELECT d.DepartmentName, p.ProjectName
+FROM Departments d
+RIGHT JOIN Projects p
+ON d.DepartmentID = p.DepartmentID;
+
+
+-- 3. Display All Employees and Projects
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+LEFT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+
+UNION
+
+SELECT e.EmployeeName, p.ProjectName
+FROM Employees e
+RIGHT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- 4. Display All Departments and Employees Including Unmatched Records
+SELECT d.DepartmentName, e.EmployeeName
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+
+UNION
+
+SELECT d.DepartmentName, e.EmployeeName
+FROM Departments d
+RIGHT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID;
+
+
+-- 5. Display All Departments and Projects Including Unmatched Records
+SELECT d.DepartmentName, p.ProjectName
+FROM Departments d
+LEFT JOIN Projects p
+ON d.DepartmentID = p.DepartmentID
+
+UNION
+
+SELECT d.DepartmentName, p.ProjectName
+FROM Departments d
+RIGHT JOIN Projects p
+ON d.DepartmentID = p.DepartmentID;
+
+-- ===========================================================
+-- INTERMEDIATE JOIN QUERIES
+-- ===========================================================
+
+-- 1. Display Employee Name, Department Name, and Project Name
+SELECT e.EmployeeName, d.DepartmentName, p.ProjectName
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- 2. Display Employees Working in the IT Department
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE d.DepartmentName = 'IT';
+
+
+-- 3. Display Employees Working on Projects with Budget Greater Than 200000
+SELECT e.EmployeeName, p.ProjectName, p.Budget
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+WHERE p.Budget > 200000;
+
+
+-- 4. Count the Number of Employees in Each Department
+SELECT d.DepartmentName,
+COUNT(e.EmployeeID) AS TotalEmployees
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName;
+
+
+-- 5. Display the Average Salary of Employees in Each Department
+SELECT d.DepartmentName,
+AVG(e.Salary) AS AverageSalary
+FROM Departments d
+INNER JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName;
+
+
+-- 6. Display Departments Having More Than One Employee
+SELECT d.DepartmentName,
+COUNT(e.EmployeeID) AS TotalEmployees
+FROM Departments d
+INNER JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName
+HAVING COUNT(e.EmployeeID) > 1;
+
+
+-- 7. Display Employees Who Are Not Assigned to Any Project
+SELECT e.EmployeeName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+WHERE ep.ProjectID IS NULL;
+
+
+-- 8. Display Projects That Have No Employees Assigned
+SELECT p.ProjectName
+FROM Projects p
+LEFT JOIN EmployeeProjects ep
+ON p.ProjectID = ep.ProjectID
+WHERE ep.EmployeeID IS NULL;
+
+
+-- 9. Display Employees Earning More Than the Average Salary
+SELECT EmployeeName, Salary
+FROM Employees
+WHERE Salary >
+(
+SELECT AVG(Salary)
+FROM Employees
+);
+
+
+-- 10. Display the Department with the Highest Average Salary
+SELECT d.DepartmentName,
+AVG(e.Salary) AS AverageSalary
+FROM Departments d
+INNER JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName
+ORDER BY AverageSalary DESC
+LIMIT 1;
+
+-- ===========================================================
+-- ADVANCED JOIN QUERIES
+-- ===========================================================
+
+-- 1. Display Employees Along with Their Department and Project Details
+SELECT e.EmployeeID,
+       e.EmployeeName,
+       d.DepartmentName,
+       p.ProjectName,
+       p.Budget
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- 2. Display Employees Working on More Than One Project
+SELECT e.EmployeeID,
+       e.EmployeeName,
+       COUNT(ep.ProjectID) AS TotalProjects
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+GROUP BY e.EmployeeID, e.EmployeeName
+HAVING COUNT(ep.ProjectID) > 1;
+
+
+-- 3. Display the Department with the Maximum Number of Employees
+SELECT d.DepartmentName,
+       COUNT(e.EmployeeID) AS TotalEmployees
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName
+ORDER BY TotalEmployees DESC
+LIMIT 1;
+
+
+-- 4. Display the Highest Paid Employee in Each Department
+SELECT d.DepartmentName,
+       e.EmployeeName,
+       e.Salary
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE e.Salary =
+(
+    SELECT MAX(e2.Salary)
+    FROM Employees e2
+    WHERE e2.DepartmentID = e.DepartmentID
+);
+
+
+-- 5. Display Employees Who Work in the Same Department
+SELECT e1.EmployeeName AS Employee1,
+       e2.EmployeeName AS Employee2,
+       d.DepartmentName
+FROM Employees e1
+INNER JOIN Employees e2
+ON e1.DepartmentID = e2.DepartmentID
+AND e1.EmployeeID < e2.EmployeeID
+INNER JOIN Departments d
+ON e1.DepartmentID = d.DepartmentID;
+
+
+-- 6. Display Projects with Total Number of Employees Assigned
+SELECT p.ProjectName,
+       COUNT(ep.EmployeeID) AS TotalEmployees
+FROM Projects p
+LEFT JOIN EmployeeProjects ep
+ON p.ProjectID = ep.ProjectID
+GROUP BY p.ProjectName;
+
+
+-- 7. Display Employees Who Are Assigned to Every Project
+SELECT e.EmployeeID,
+       e.EmployeeName
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+GROUP BY e.EmployeeID, e.EmployeeName
+HAVING COUNT(DISTINCT ep.ProjectID) =
+(
+    SELECT COUNT(*)
+    FROM Projects
+);
+
+
+-- 8. Display Departments That Do Not Have Any Employees
+SELECT d.DepartmentID,
+       d.DepartmentName
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+WHERE e.EmployeeID IS NULL;
+
+
+-- 9. Display Employees with the Number of Projects Assigned
+SELECT e.EmployeeID,
+       e.EmployeeName,
+       COUNT(ep.ProjectID) AS ProjectCount
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+GROUP BY e.EmployeeID, e.EmployeeName;
+
+
+-- 10. Display Employees and Their Project Budget
+SELECT e.EmployeeName,
+       p.ProjectName,
+       p.Budget
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- ===========================================================
+-- SELF JOIN
+-- ===========================================================
+
+-- 1. Display Employees Working in the Same Department
+SELECT e1.EmployeeName AS Employee1,
+       e2.EmployeeName AS Employee2,
+       d.DepartmentName
+FROM Employees e1
+INNER JOIN Employees e2
+ON e1.DepartmentID = e2.DepartmentID
+AND e1.EmployeeID < e2.EmployeeID
+INNER JOIN Departments d
+ON e1.DepartmentID = d.DepartmentID;
+
+
+-- 2. Display Employee Pairs Having the Same Salary
+SELECT e1.EmployeeName AS Employee1,
+       e2.EmployeeName AS Employee2,
+       e1.Salary
+FROM Employees e1
+INNER JOIN Employees e2
+ON e1.Salary = e2.Salary
+AND e1.EmployeeID < e2.EmployeeID;
+
+
+-- 3. Display Employees Belonging to the Same Department
+SELECT e1.EmployeeName,
+       e2.EmployeeName,
+       e1.DepartmentID
+FROM Employees e1
+INNER JOIN Employees e2
+ON e1.DepartmentID = e2.DepartmentID
+AND e1.EmployeeID <> e2.EmployeeID;
+
+
+-- ===========================================================
+-- LEFT ANTI JOIN
+-- ===========================================================
+
+-- 1. Display Employees Not Assigned to Any Project
+SELECT e.EmployeeID,
+       e.EmployeeName
+FROM Employees e
+LEFT JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+WHERE ep.EmployeeID IS NULL;
+
+
+-- 2. Display Departments Without Employees
+SELECT d.DepartmentID,
+       d.DepartmentName
+FROM Departments d
+LEFT JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+WHERE e.EmployeeID IS NULL;
+
+
+-- 3. Display Projects Without Assigned Employees
+SELECT p.ProjectID,
+       p.ProjectName
+FROM Projects p
+LEFT JOIN EmployeeProjects ep
+ON p.ProjectID = ep.ProjectID
+WHERE ep.ProjectID IS NULL;
+
+
+-- ===========================================================
+-- RIGHT ANTI JOIN
+-- ===========================================================
+
+-- 1. Display Departments That Have No Employees
+SELECT d.DepartmentID,
+       d.DepartmentName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE e.EmployeeID IS NULL;
+
+
+-- 2. Display Projects Without Any Employee Assignment
+SELECT p.ProjectID,
+       p.ProjectName
+FROM EmployeeProjects ep
+RIGHT JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+WHERE ep.EmployeeID IS NULL;
+
+
+-- ===========================================================
+-- FULL ANTI JOIN (Using UNION in MySQL)
+-- ===========================================================
+
+-- 1. Display Employees Without Departments and Departments Without Employees
+SELECT e.EmployeeName,
+       d.DepartmentName
+FROM Employees e
+LEFT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE d.DepartmentID IS NULL
+
+UNION
+
+SELECT e.EmployeeName,
+       d.DepartmentName
+FROM Employees e
+RIGHT JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+WHERE e.EmployeeID IS NULL;
+
+
+-- 2. Display Projects Without Departments and Departments Without Projects
+SELECT p.ProjectName,
+       d.DepartmentName
+FROM Projects p
+LEFT JOIN Departments d
+ON p.DepartmentID = d.DepartmentID
+WHERE d.DepartmentID IS NULL
+
+UNION
+
+SELECT p.ProjectName,
+       d.DepartmentName
+FROM Projects p
+RIGHT JOIN Departments d
+ON p.DepartmentID = d.DepartmentID
+WHERE p.ProjectID IS NULL;
+
+
+-- ===========================================================
+-- EXPERT LEVEL JOIN CHALLENGES
+-- ===========================================================
+
+-- 1. Display Employee Name, Department Name, Project Name and Budget
+SELECT e.EmployeeName,
+       d.DepartmentName,
+       p.ProjectName,
+       p.Budget
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID;
+
+
+-- 2. Display Department with Highest Total Salary
+SELECT d.DepartmentName,
+       SUM(e.Salary) AS TotalSalary
+FROM Departments d
+INNER JOIN Employees e
+ON d.DepartmentID = e.DepartmentID
+GROUP BY d.DepartmentName
+ORDER BY TotalSalary DESC
+LIMIT 1;
+
+
+-- 3. Display Employee Assigned to the Highest Budget Project
+SELECT e.EmployeeName,
+       p.ProjectName,
+       p.Budget
+FROM Employees e
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+WHERE p.Budget =
+(
+    SELECT MAX(Budget)
+    FROM Projects
+);
+
+
+-- 4. Display Department-wise Project Count
+SELECT d.DepartmentName,
+       COUNT(p.ProjectID) AS TotalProjects
+FROM Departments d
+LEFT JOIN Projects p
+ON d.DepartmentID = p.DepartmentID
+GROUP BY d.DepartmentName;
+
+
+-- 5. Display Employees with Their Department, Project and Salary Sorted by Salary
+SELECT e.EmployeeName,
+       d.DepartmentName,
+       p.ProjectName,
+       e.Salary
+FROM Employees e
+INNER JOIN Departments d
+ON e.DepartmentID = d.DepartmentID
+INNER JOIN EmployeeProjects ep
+ON e.EmployeeID = ep.EmployeeID
+INNER JOIN Projects p
+ON ep.ProjectID = p.ProjectID
+ORDER BY e.Salary DESC;
+
+
+
+
+
