@@ -1,0 +1,1442 @@
+**Schema (MySQL v9)**
+
+    CREATE TABLE Departments (
+        DepartmentID INT PRIMARY KEY,
+        DepartmentName VARCHAR(50),
+        Location VARCHAR(50)
+    );
+    
+    INSERT INTO Departments VALUES
+    (1,'HR','New York'),
+    (2,'Finance','Chicago'),
+    (3,'IT','Dallas'),
+    (4,'Marketing','Boston'),
+    (5,'Sales','Seattle'),
+    (6,'Operations','Atlanta');
+    
+    
+    
+    CREATE TABLE Employees (
+        EmployeeID INT PRIMARY KEY,
+        EmployeeName VARCHAR(50),
+        DepartmentID INT,
+        Salary DECIMAL(10,2),
+        ManagerID INT,
+        JoiningDate DATE
+    );
+    
+    INSERT INTO Employees VALUES
+    (101,'John',1,50000,NULL,'2020-01-15'),
+    (102,'Emma',2,65000,101,'2021-03-10'),
+    (103,'David',3,70000,101,'2019-07-22'),
+    (104,'Sophia',3,72000,103,'2022-05-01'),
+    (105,'Michael',5,55000,102,'2021-09-18'),
+    (106,'Olivia',NULL,48000,102,'2023-01-12'),
+    (107,'James',4,60000,103,'2022-10-20'),
+    (108,'William',7,75000,101,'2020-08-11'),
+    (109,'Ava',NULL,52000,NULL,'2024-02-15'),
+    (110,'Isabella',5,68000,105,'2021-06-05');
+    
+    
+    CREATE TABLE Projects (
+        ProjectID INT PRIMARY KEY,
+        ProjectName VARCHAR(50),
+        DepartmentID INT,
+        Budget DECIMAL(12,2)
+    );
+    
+    INSERT INTO Projects VALUES
+    (201,'Payroll System',1,150000),
+    (202,'Audit System',2,200000),
+    (203,'Website Redesign',4,100000),
+    (204,'ERP Upgrade',3,500000),
+    (205,'Sales Dashboard',5,175000),
+    (206,'Automation',6,250000),
+    (207,'AI Chatbot',8,300000);
+    
+    
+    CREATE TABLE EmployeeProjects (
+        EmployeeID INT,
+        ProjectID INT
+    );
+    
+    INSERT INTO EmployeeProjects VALUES
+    (101,201),
+    (102,202),
+    (103,204),
+    (104,204),
+    (105,205),
+    (107,203),
+    (110,205),
+    (103,207),
+    (108,207),
+    (109,202);
+    
+    CREATE TABLE CurrentEmployees (
+        EmployeeID INT PRIMARY KEY,
+        EmployeeName VARCHAR(50),
+        Department VARCHAR(50),
+        Salary DECIMAL(10,2)
+    );
+    
+    INSERT INTO CurrentEmployees VALUES
+    (101,'John','HR',50000),
+    (102,'Emma','Finance',65000),
+    (103,'David','IT',70000),
+    (104,'Sophia','IT',72000),
+    (105,'Michael','Sales',55000),
+    (106,'Olivia','Marketing',48000),
+    (107,'James','Marketing',60000),
+    (108,'William','IT',75000),
+    (109,'Ava','Finance',52000),
+    (110,'Isabella','Sales',68000);
+    
+    
+    CREATE TABLE FormerEmployees (
+        EmployeeID INT PRIMARY KEY,
+        EmployeeName VARCHAR(50),
+        Department VARCHAR(50),
+        Salary DECIMAL(10,2)
+    );
+    
+    
+    INSERT INTO FormerEmployees VALUES
+    (105,'Michael','Sales',55000),
+    (106,'Olivia','Marketing',48000),
+    (111,'Lucas','HR',45000),
+    (112,'Mia','Finance',62000),
+    (113,'Ethan','IT',71000),
+    (114,'Charlotte','Sales',53000),
+    (115,'Benjamin','Operations',59000),
+    (116,'Amelia','HR',51000),
+    (117,'Henry','Finance',67000),
+    (118,'Harper','IT',73000);
+    
+    
+    
+    
+    CREATE TABLE DomesticCustomers (
+        CustomerID INT PRIMARY KEY,
+        CustomerName VARCHAR(50),
+        City VARCHAR(50)
+    );
+    
+    
+    INSERT INTO DomesticCustomers VALUES
+    (1,'ABC Ltd','New York'),
+    (2,'XYZ Corp','Chicago'),
+    (3,'Global Tech','Dallas'),
+    (4,'Sunrise Inc','Boston'),
+    (5,'Bright Solutions','Seattle'),
+    (6,'Alpha Systems','Miami');
+    
+    
+    
+    CREATE TABLE InternationalCustomers (
+        CustomerID INT PRIMARY KEY,
+        CustomerName VARCHAR(50),
+        City VARCHAR(50)
+    );
+    
+    
+    
+    INSERT INTO InternationalCustomers VALUES
+    (4,'Sunrise Inc','Boston'),
+    (5,'Bright Solutions','Seattle'),
+    (7,'TechWorld','London'),
+    (8,'Future Corp','Toronto'),
+    (9,'Vision Ltd','Dubai'),
+    (10,'Skyline LLC','Sydney');
+    
+    
+    CREATE TABLE OnlineOrders (
+        OrderID INT PRIMARY KEY,
+        CustomerID INT,
+        Amount DECIMAL(10,2)
+    );
+    
+    
+    INSERT INTO OnlineOrders VALUES
+    (1001,1,250),
+    (1002,2,450),
+    (1003,3,700),
+    (1004,5,900),
+    (1005,7,350),
+    (1006,8,1200);
+    
+    
+    
+    CREATE TABLE StoreOrders (
+        OrderID INT PRIMARY KEY,
+        CustomerID INT,
+        Amount DECIMAL(10,2)
+    );
+    
+    
+    
+    INSERT INTO StoreOrders VALUES
+    (1004,5,900),
+    (1005,7,350),
+    (1007,2,600),
+    (1008,3,400),
+    (1009,9,1100),
+    (1010,10,850);
+    
+
+---
+
+**Query #1**
+
+    SELECT EmployeeName
+    FROM CurrentEmployees
+    UNION
+    SELECT EmployeeName
+    FROM FormerEmployees;
+
+| EmployeeName |
+| ------------ |
+| John         |
+| Emma         |
+| David        |
+| Sophia       |
+| Michael      |
+| Olivia       |
+| James        |
+| William      |
+| Ava          |
+| Isabella     |
+| Lucas        |
+| Mia          |
+| Ethan        |
+| Charlotte    |
+| Benjamin     |
+| Amelia       |
+| Henry        |
+| Harper       |
+
+---
+**Query #2**
+
+    SELECT Department
+    FROM CurrentEmployees
+    UNION
+    SELECT Department
+    FROM FormerEmployees;
+
+| Department |
+| ---------- |
+| HR         |
+| Finance    |
+| IT         |
+| Sales      |
+| Marketing  |
+| Operations |
+
+---
+**Query #3**
+
+    SELECT CustomerName
+    FROM DomesticCustomers
+    UNION
+    SELECT CustomerName
+    FROM InternationalCustomers;
+
+| CustomerName     |
+| ---------------- |
+| ABC Ltd          |
+| XYZ Corp         |
+| Global Tech      |
+| Sunrise Inc      |
+| Bright Solutions |
+| Alpha Systems    |
+| TechWorld        |
+| Future Corp      |
+| Vision Ltd       |
+| Skyline LLC      |
+
+---
+**Query #4**
+
+    SELECT City
+    FROM DomesticCustomers
+    UNION
+    SELECT City
+    FROM InternationalCustomers;
+
+| City     |
+| -------- |
+| New York |
+| Chicago  |
+| Dallas   |
+| Boston   |
+| Seattle  |
+| Miami    |
+| London   |
+| Toronto  |
+| Dubai    |
+| Sydney   |
+
+---
+**Query #5**
+
+    SELECT Amount
+    FROM OnlineOrders
+    UNION
+    SELECT Amount
+    FROM StoreOrders;
+
+| Amount |
+| ------ |
+| 250.0  |
+| 450.0  |
+| 700.0  |
+| 900.0  |
+| 350.0  |
+| 1200.0 |
+| 600.0  |
+| 400.0  |
+| 1100.0 |
+| 850.0  |
+
+---
+**Query #6**
+
+    SELECT EmployeeName
+    FROM CurrentEmployees
+    UNION ALL
+    SELECT EmployeeName
+    FROM FormerEmployees;
+
+| EmployeeName |
+| ------------ |
+| John         |
+| Emma         |
+| David        |
+| Sophia       |
+| Michael      |
+| Olivia       |
+| James        |
+| William      |
+| Ava          |
+| Isabella     |
+| Michael      |
+| Olivia       |
+| Lucas        |
+| Mia          |
+| Ethan        |
+| Charlotte    |
+| Benjamin     |
+| Amelia       |
+| Henry        |
+| Harper       |
+
+---
+**Query #7**
+
+    SELECT Department
+    FROM CurrentEmployees
+    UNION ALL
+    SELECT Department
+    FROM FormerEmployees;
+
+| Department |
+| ---------- |
+| HR         |
+| Finance    |
+| IT         |
+| IT         |
+| Sales      |
+| Marketing  |
+| Marketing  |
+| IT         |
+| Finance    |
+| Sales      |
+| Sales      |
+| Marketing  |
+| HR         |
+| Finance    |
+| IT         |
+| Sales      |
+| Operations |
+| HR         |
+| Finance    |
+| IT         |
+
+---
+**Query #8**
+
+    SELECT CustomerName
+    FROM DomesticCustomers
+    UNION ALL
+    SELECT CustomerName
+    FROM InternationalCustomers;
+
+| CustomerName     |
+| ---------------- |
+| ABC Ltd          |
+| XYZ Corp         |
+| Global Tech      |
+| Sunrise Inc      |
+| Bright Solutions |
+| Alpha Systems    |
+| Sunrise Inc      |
+| Bright Solutions |
+| TechWorld        |
+| Future Corp      |
+| Vision Ltd       |
+| Skyline LLC      |
+
+---
+**Query #9**
+
+    SELECT City
+    FROM DomesticCustomers
+    UNION ALL
+    SELECT City
+    FROM InternationalCustomers;
+
+| City     |
+| -------- |
+| New York |
+| Chicago  |
+| Dallas   |
+| Boston   |
+| Seattle  |
+| Miami    |
+| Boston   |
+| Seattle  |
+| London   |
+| Toronto  |
+| Dubai    |
+| Sydney   |
+
+---
+**Query #10**
+
+    SELECT Amount
+    FROM OnlineOrders
+    UNION ALL
+    SELECT Amount
+    FROM StoreOrders;
+
+| Amount |
+| ------ |
+| 250.0  |
+| 450.0  |
+| 700.0  |
+| 900.0  |
+| 350.0  |
+| 1200.0 |
+| 900.0  |
+| 350.0  |
+| 600.0  |
+| 400.0  |
+| 1100.0 |
+| 850.0  |
+
+---
+**Query #11**
+
+    SELECT EmployeeID, EmployeeName
+    FROM CurrentEmployees
+    UNION
+    SELECT EmployeeID, EmployeeName
+    FROM FormerEmployees;
+
+| EmployeeID | EmployeeName |
+| ---------- | ------------ |
+| 101        | John         |
+| 102        | Emma         |
+| 103        | David        |
+| 104        | Sophia       |
+| 105        | Michael      |
+| 106        | Olivia       |
+| 107        | James        |
+| 108        | William      |
+| 109        | Ava          |
+| 110        | Isabella     |
+| 111        | Lucas        |
+| 112        | Mia          |
+| 113        | Ethan        |
+| 114        | Charlotte    |
+| 115        | Benjamin     |
+| 116        | Amelia       |
+| 117        | Henry        |
+| 118        | Harper       |
+
+---
+**Query #12**
+
+    SELECT CustomerID, CustomerName
+    FROM DomesticCustomers
+    UNION
+    SELECT CustomerID, CustomerName
+    FROM InternationalCustomers;
+
+| CustomerID | CustomerName     |
+| ---------- | ---------------- |
+| 1          | ABC Ltd          |
+| 2          | XYZ Corp         |
+| 3          | Global Tech      |
+| 4          | Sunrise Inc      |
+| 5          | Bright Solutions |
+| 6          | Alpha Systems    |
+| 7          | TechWorld        |
+| 8          | Future Corp      |
+| 9          | Vision Ltd       |
+| 10         | Skyline LLC      |
+
+---
+**Query #13**
+
+    SELECT Salary
+    FROM CurrentEmployees
+    UNION
+    SELECT Salary
+    FROM FormerEmployees;
+
+| Salary  |
+| ------- |
+| 50000.0 |
+| 65000.0 |
+| 70000.0 |
+| 72000.0 |
+| 55000.0 |
+| 48000.0 |
+| 60000.0 |
+| 75000.0 |
+| 52000.0 |
+| 68000.0 |
+| 45000.0 |
+| 62000.0 |
+| 71000.0 |
+| 53000.0 |
+| 59000.0 |
+| 51000.0 |
+| 67000.0 |
+| 73000.0 |
+
+---
+**Query #14**
+
+    SELECT OrderID
+    FROM OnlineOrders
+    UNION
+    SELECT OrderID
+    FROM StoreOrders;
+
+| OrderID |
+| ------- |
+| 1001    |
+| 1002    |
+| 1003    |
+| 1004    |
+| 1005    |
+| 1006    |
+| 1007    |
+| 1008    |
+| 1009    |
+| 1010    |
+
+---
+**Query #15**
+
+    SELECT Department
+    FROM CurrentEmployees
+    UNION
+    SELECT Department
+    FROM FormerEmployees;
+
+| Department |
+| ---------- |
+| HR         |
+| Finance    |
+| IT         |
+| Sales      |
+| Marketing  |
+| Operations |
+
+---
+**Query #16**
+
+    SELECT COUNT(*) AS TotalRows
+    FROM (
+        SELECT EmployeeName
+        FROM CurrentEmployees
+        UNION ALL
+        SELECT EmployeeName
+        FROM FormerEmployees
+    ) AS Employees;
+
+| TotalRows |
+| --------- |
+| 20        |
+
+---
+**Query #17**
+
+    SELECT *
+    FROM DomesticCustomers
+    UNION ALL
+    SELECT *
+    FROM InternationalCustomers;
+
+| CustomerID | CustomerName     | City     |
+| ---------- | ---------------- | -------- |
+| 1          | ABC Ltd          | New York |
+| 2          | XYZ Corp         | Chicago  |
+| 3          | Global Tech      | Dallas   |
+| 4          | Sunrise Inc      | Boston   |
+| 5          | Bright Solutions | Seattle  |
+| 6          | Alpha Systems    | Miami    |
+| 4          | Sunrise Inc      | Boston   |
+| 5          | Bright Solutions | Seattle  |
+| 7          | TechWorld        | London   |
+| 8          | Future Corp      | Toronto  |
+| 9          | Vision Ltd       | Dubai    |
+| 10         | Skyline LLC      | Sydney   |
+
+---
+**Query #18**
+
+    SELECT Salary
+    FROM CurrentEmployees
+    UNION ALL
+    SELECT Salary
+    FROM FormerEmployees;
+
+| Salary  |
+| ------- |
+| 50000.0 |
+| 65000.0 |
+| 70000.0 |
+| 72000.0 |
+| 55000.0 |
+| 48000.0 |
+| 60000.0 |
+| 75000.0 |
+| 52000.0 |
+| 68000.0 |
+| 55000.0 |
+| 48000.0 |
+| 45000.0 |
+| 62000.0 |
+| 71000.0 |
+| 53000.0 |
+| 59000.0 |
+| 51000.0 |
+| 67000.0 |
+| 73000.0 |
+
+---
+**Query #19**
+
+    SELECT City
+    FROM DomesticCustomers
+    UNION ALL
+    SELECT City
+    FROM InternationalCustomers;
+
+| City     |
+| -------- |
+| New York |
+| Chicago  |
+| Dallas   |
+| Boston   |
+| Seattle  |
+| Miami    |
+| Boston   |
+| Seattle  |
+| London   |
+| Toronto  |
+| Dubai    |
+| Sydney   |
+
+---
+**Query #20**
+
+    SELECT Amount
+    FROM OnlineOrders
+    UNION ALL
+    SELECT Amount
+    FROM StoreOrders;
+
+| Amount |
+| ------ |
+| 250.0  |
+| 450.0  |
+| 700.0  |
+| 900.0  |
+| 350.0  |
+| 1200.0 |
+| 900.0  |
+| 350.0  |
+| 600.0  |
+| 400.0  |
+| 1100.0 |
+| 850.0  |
+
+---
+**Query #21**
+
+    SELECT EmployeeName AS Name
+    FROM CurrentEmployees
+    UNION
+    SELECT CustomerName
+    FROM DomesticCustomers;
+
+| Name             |
+| ---------------- |
+| John             |
+| Emma             |
+| David            |
+| Sophia           |
+| Michael          |
+| Olivia           |
+| James            |
+| William          |
+| Ava              |
+| Isabella         |
+| ABC Ltd          |
+| XYZ Corp         |
+| Global Tech      |
+| Sunrise Inc      |
+| Bright Solutions |
+| Alpha Systems    |
+
+---
+**Query #22**
+
+    SELECT EmployeeName
+    FROM CurrentEmployees
+    UNION
+    SELECT EmployeeName
+    FROM FormerEmployees
+    UNION
+    SELECT CustomerName
+    FROM DomesticCustomers
+    UNION
+    SELECT CustomerName
+    FROM InternationalCustomers;
+
+| EmployeeName     |
+| ---------------- |
+| John             |
+| Emma             |
+| David            |
+| Sophia           |
+| Michael          |
+| Olivia           |
+| James            |
+| William          |
+| Ava              |
+| Isabella         |
+| Lucas            |
+| Mia              |
+| Ethan            |
+| Charlotte        |
+| Benjamin         |
+| Amelia           |
+| Henry            |
+| Harper           |
+| ABC Ltd          |
+| XYZ Corp         |
+| Global Tech      |
+| Sunrise Inc      |
+| Bright Solutions |
+| Alpha Systems    |
+| TechWorld        |
+| Future Corp      |
+| Vision Ltd       |
+| Skyline LLC      |
+
+---
+**Query #23**
+
+    SELECT Department
+    FROM CurrentEmployees
+    UNION
+    SELECT Department
+    FROM FormerEmployees
+    ORDER BY Department;
+
+| Department |
+| ---------- |
+| Finance    |
+| HR         |
+| IT         |
+| Marketing  |
+| Operations |
+| Sales      |
+
+---
+**Query #24**
+
+    SELECT City AS Place
+    FROM DomesticCustomers
+    UNION
+    SELECT Department
+    FROM CurrentEmployees;
+
+| Place     |
+| --------- |
+| New York  |
+| Chicago   |
+| Dallas    |
+| Boston    |
+| Seattle   |
+| Miami     |
+| HR        |
+| Finance   |
+| IT        |
+| Sales     |
+| Marketing |
+
+---
+**Query #25**
+
+    SELECT EmployeeID AS ID
+    FROM CurrentEmployees
+    UNION
+    SELECT CustomerID
+    FROM DomesticCustomers;
+
+| ID  |
+| --- |
+| 101 |
+| 102 |
+| 103 |
+| 104 |
+| 105 |
+| 106 |
+| 107 |
+| 108 |
+| 109 |
+| 110 |
+| 1   |
+| 2   |
+| 3   |
+| 4   |
+| 5   |
+| 6   |
+
+---
+**Query #26**
+
+    SELECT *
+    FROM CurrentEmployees
+    UNION ALL
+    SELECT *
+    FROM FormerEmployees;
+
+| EmployeeID | EmployeeName | Department | Salary  |
+| ---------- | ------------ | ---------- | ------- |
+| 101        | John         | HR         | 50000.0 |
+| 102        | Emma         | Finance    | 65000.0 |
+| 103        | David        | IT         | 70000.0 |
+| 104        | Sophia       | IT         | 72000.0 |
+| 105        | Michael      | Sales      | 55000.0 |
+| 106        | Olivia       | Marketing  | 48000.0 |
+| 107        | James        | Marketing  | 60000.0 |
+| 108        | William      | IT         | 75000.0 |
+| 109        | Ava          | Finance    | 52000.0 |
+| 110        | Isabella     | Sales      | 68000.0 |
+| 105        | Michael      | Sales      | 55000.0 |
+| 106        | Olivia       | Marketing  | 48000.0 |
+| 111        | Lucas        | HR         | 45000.0 |
+| 112        | Mia          | Finance    | 62000.0 |
+| 113        | Ethan        | IT         | 71000.0 |
+| 114        | Charlotte    | Sales      | 53000.0 |
+| 115        | Benjamin     | Operations | 59000.0 |
+| 116        | Amelia       | HR         | 51000.0 |
+| 117        | Henry        | Finance    | 67000.0 |
+| 118        | Harper       | IT         | 73000.0 |
+
+---
+**Query #27**
+
+    SELECT *
+    FROM OnlineOrders
+    UNION ALL
+    SELECT *
+    FROM StoreOrders;
+
+| OrderID | CustomerID | Amount |
+| ------- | ---------- | ------ |
+| 1001    | 1          | 250.0  |
+| 1002    | 2          | 450.0  |
+| 1003    | 3          | 700.0  |
+| 1004    | 5          | 900.0  |
+| 1005    | 7          | 350.0  |
+| 1006    | 8          | 1200.0 |
+| 1004    | 5          | 900.0  |
+| 1005    | 7          | 350.0  |
+| 1007    | 2          | 600.0  |
+| 1008    | 3          | 400.0  |
+| 1009    | 9          | 1100.0 |
+| 1010    | 10         | 850.0  |
+
+---
+**Query #28**
+
+    SELECT *
+    FROM DomesticCustomers
+    UNION ALL
+    SELECT *
+    FROM InternationalCustomers;
+
+| CustomerID | CustomerName     | City     |
+| ---------- | ---------------- | -------- |
+| 1          | ABC Ltd          | New York |
+| 2          | XYZ Corp         | Chicago  |
+| 3          | Global Tech      | Dallas   |
+| 4          | Sunrise Inc      | Boston   |
+| 5          | Bright Solutions | Seattle  |
+| 6          | Alpha Systems    | Miami    |
+| 4          | Sunrise Inc      | Boston   |
+| 5          | Bright Solutions | Seattle  |
+| 7          | TechWorld        | London   |
+| 8          | Future Corp      | Toronto  |
+| 9          | Vision Ltd       | Dubai    |
+| 10         | Skyline LLC      | Sydney   |
+
+---
+**Query #29**
+
+    SELECT EmployeeName, 'Current' AS Source
+    FROM CurrentEmployees
+    UNION ALL
+    SELECT EmployeeName, 'Former'
+    FROM FormerEmployees;
+
+| EmployeeName | Source  |
+| ------------ | ------- |
+| John         | Current |
+| Emma         | Current |
+| David        | Current |
+| Sophia       | Current |
+| Michael      | Current |
+| Olivia       | Current |
+| James        | Current |
+| William      | Current |
+| Ava          | Current |
+| Isabella     | Current |
+| Michael      | Former  |
+| Olivia       | Former  |
+| Lucas        | Former  |
+| Mia          | Former  |
+| Ethan        | Former  |
+| Charlotte    | Former  |
+| Benjamin     | Former  |
+| Amelia       | Former  |
+| Henry        | Former  |
+| Harper       | Former  |
+
+---
+**Query #30**
+
+    SELECT OrderID, CustomerID, Amount, 'Online' AS Source
+    FROM OnlineOrders
+    UNION ALL
+    SELECT OrderID, CustomerID, Amount, 'Store'
+    FROM StoreOrders;
+
+| OrderID | CustomerID | Amount | Source |
+| ------- | ---------- | ------ | ------ |
+| 1001    | 1          | 250.0  | Online |
+| 1002    | 2          | 450.0  | Online |
+| 1003    | 3          | 700.0  | Online |
+| 1004    | 5          | 900.0  | Online |
+| 1005    | 7          | 350.0  | Online |
+| 1006    | 8          | 1200.0 | Online |
+| 1004    | 5          | 900.0  | Store  |
+| 1005    | 7          | 350.0  | Store  |
+| 1007    | 2          | 600.0  | Store  |
+| 1008    | 3          | 400.0  | Store  |
+| 1009    | 9          | 1100.0 | Store  |
+| 1010    | 10         | 850.0  | Store  |
+
+---
+**Query #31**
+
+    SELECT *
+    FROM CurrentEmployees c
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM FormerEmployees f
+        WHERE c.EmployeeID = f.EmployeeID
+    );
+
+| EmployeeID | EmployeeName | Department | Salary  |
+| ---------- | ------------ | ---------- | ------- |
+| 101        | John         | HR         | 50000.0 |
+| 102        | Emma         | Finance    | 65000.0 |
+| 103        | David        | IT         | 70000.0 |
+| 104        | Sophia       | IT         | 72000.0 |
+| 107        | James        | Marketing  | 60000.0 |
+| 108        | William      | IT         | 75000.0 |
+| 109        | Ava          | Finance    | 52000.0 |
+| 110        | Isabella     | Sales      | 68000.0 |
+
+---
+**Query #32**
+
+    SELECT *
+    FROM FormerEmployees f
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM CurrentEmployees c
+        WHERE c.EmployeeID = f.EmployeeID
+    );
+
+| EmployeeID | EmployeeName | Department | Salary  |
+| ---------- | ------------ | ---------- | ------- |
+| 111        | Lucas        | HR         | 45000.0 |
+| 112        | Mia          | Finance    | 62000.0 |
+| 113        | Ethan        | IT         | 71000.0 |
+| 114        | Charlotte    | Sales      | 53000.0 |
+| 115        | Benjamin     | Operations | 59000.0 |
+| 116        | Amelia       | HR         | 51000.0 |
+| 117        | Henry        | Finance    | 67000.0 |
+| 118        | Harper       | IT         | 73000.0 |
+
+---
+**Query #33**
+
+    SELECT *
+    FROM DomesticCustomers d
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM InternationalCustomers i
+        WHERE d.CustomerID = i.CustomerID
+    );
+
+| CustomerID | CustomerName  | City     |
+| ---------- | ------------- | -------- |
+| 1          | ABC Ltd       | New York |
+| 2          | XYZ Corp      | Chicago  |
+| 3          | Global Tech   | Dallas   |
+| 6          | Alpha Systems | Miami    |
+
+---
+**Query #34**
+
+    SELECT *
+    FROM OnlineOrders o
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM StoreOrders s
+        WHERE o.OrderID = s.OrderID
+    );
+
+| OrderID | CustomerID | Amount |
+| ------- | ---------- | ------ |
+| 1001    | 1          | 250.0  |
+| 1002    | 2          | 450.0  |
+| 1003    | 3          | 700.0  |
+| 1006    | 8          | 1200.0 |
+
+---
+**Query #35**
+
+    SELECT DISTINCT Department
+    FROM CurrentEmployees c
+    WHERE Department NOT IN (
+        SELECT Department
+        FROM FormerEmployees
+    );
+
+There are no results to be displayed.
+
+---
+**Query #36**
+
+    SELECT EmployeeID
+    FROM CurrentEmployees c
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM FormerEmployees f
+        WHERE c.EmployeeID = f.EmployeeID
+    );
+
+| EmployeeID |
+| ---------- |
+| 101        |
+| 102        |
+| 103        |
+| 104        |
+| 107        |
+| 108        |
+| 109        |
+| 110        |
+
+---
+**Query #37**
+
+    SELECT EmployeeID
+    FROM FormerEmployees f
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM CurrentEmployees c
+        WHERE c.EmployeeID = f.EmployeeID
+    );
+
+| EmployeeID |
+| ---------- |
+| 111        |
+| 112        |
+| 113        |
+| 114        |
+| 115        |
+| 116        |
+| 117        |
+| 118        |
+
+---
+**Query #38**
+
+    SELECT CustomerID
+    FROM DomesticCustomers d
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM InternationalCustomers i
+        WHERE d.CustomerID = i.CustomerID
+    );
+
+| CustomerID |
+| ---------- |
+| 1          |
+| 2          |
+| 3          |
+| 6          |
+
+---
+**Query #39**
+
+    SELECT CustomerID
+    FROM InternationalCustomers i
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM DomesticCustomers d
+        WHERE i.CustomerID = d.CustomerID
+    );
+
+| CustomerID |
+| ---------- |
+| 7          |
+| 8          |
+| 9          |
+| 10         |
+
+---
+**Query #40**
+
+    SELECT OrderID
+    FROM OnlineOrders o
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM StoreOrders s
+        WHERE o.OrderID = s.OrderID
+    );
+
+| OrderID |
+| ------- |
+| 1001    |
+| 1002    |
+| 1003    |
+| 1006    |
+
+---
+**Query #41**
+
+    SELECT CustomerID
+    FROM OnlineOrders o
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM StoreOrders s
+        WHERE o.CustomerID = s.CustomerID
+    );
+
+| CustomerID |
+| ---------- |
+| 1          |
+| 8          |
+
+---
+**Query #42**
+
+    SELECT CustomerID
+    FROM StoreOrders s
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM OnlineOrders o
+        WHERE s.CustomerID = o.CustomerID
+    );
+
+| CustomerID |
+| ---------- |
+| 9          |
+| 10         |
+
+---
+**Query #43**
+
+    SELECT EmployeeName
+    FROM CurrentEmployees c
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM FormerEmployees f
+        WHERE c.EmployeeID = f.EmployeeID
+    );
+
+| EmployeeName |
+| ------------ |
+| John         |
+| Emma         |
+| David        |
+| Sophia       |
+| James        |
+| William      |
+| Ava          |
+| Isabella     |
+
+---
+**Query #44**
+
+    SELECT DISTINCT Department
+    FROM FormerEmployees f
+    WHERE Department NOT IN (
+        SELECT Department
+        FROM CurrentEmployees
+    );
+
+| Department |
+| ---------- |
+| Operations |
+
+---
+**Query #45**
+
+    SELECT DISTINCT City
+    FROM DomesticCustomers d
+    WHERE City NOT IN (
+        SELECT City
+        FROM InternationalCustomers
+    );
+
+| City     |
+| -------- |
+| New York |
+| Chicago  |
+| Dallas   |
+| Miami    |
+
+---
+**Query #46**
+
+    SELECT c.*
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.EmployeeID = f.EmployeeID;
+
+| EmployeeID | EmployeeName | Department | Salary  |
+| ---------- | ------------ | ---------- | ------- |
+| 105        | Michael      | Sales      | 55000.0 |
+| 106        | Olivia       | Marketing  | 48000.0 |
+
+---
+**Query #47**
+
+    SELECT DISTINCT c.Department
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.Department = f.Department;
+
+| Department |
+| ---------- |
+| Sales      |
+| Marketing  |
+| HR         |
+| Finance    |
+| IT         |
+
+---
+**Query #48**
+
+    SELECT d.*
+    FROM DomesticCustomers d
+    INNER JOIN InternationalCustomers i
+    ON d.CustomerID = i.CustomerID;
+
+| CustomerID | CustomerName     | City    |
+| ---------- | ---------------- | ------- |
+| 4          | Sunrise Inc      | Boston  |
+| 5          | Bright Solutions | Seattle |
+
+---
+**Query #49**
+
+    SELECT DISTINCT d.City
+    FROM DomesticCustomers d
+    INNER JOIN InternationalCustomers i
+    ON d.City = i.City;
+
+| City    |
+| ------- |
+| Boston  |
+| Seattle |
+
+---
+**Query #50**
+
+    SELECT o.*
+    FROM OnlineOrders o
+    INNER JOIN StoreOrders s
+    ON o.OrderID = s.OrderID;
+
+| OrderID | CustomerID | Amount |
+| ------- | ---------- | ------ |
+| 1004    | 5          | 900.0  |
+| 1005    | 7          | 350.0  |
+
+---
+**Query #51**
+
+    SELECT c.EmployeeID
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.EmployeeID = f.EmployeeID;
+
+| EmployeeID |
+| ---------- |
+| 105        |
+| 106        |
+
+---
+**Query #52**
+
+    SELECT d.CustomerID
+    FROM DomesticCustomers d
+    INNER JOIN InternationalCustomers i
+    ON d.CustomerID = i.CustomerID;
+
+| CustomerID |
+| ---------- |
+| 4          |
+| 5          |
+
+---
+**Query #53**
+
+    SELECT o.OrderID
+    FROM OnlineOrders o
+    INNER JOIN StoreOrders s
+    ON o.OrderID = s.OrderID;
+
+| OrderID |
+| ------- |
+| 1004    |
+| 1005    |
+
+---
+**Query #54**
+
+    SELECT DISTINCT c.Salary
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.Salary = f.Salary;
+
+| Salary  |
+| ------- |
+| 55000.0 |
+| 48000.0 |
+
+---
+**Query #55**
+
+    SELECT DISTINCT c.Department
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.Department = f.Department;
+
+| Department |
+| ---------- |
+| Sales      |
+| Marketing  |
+| HR         |
+| Finance    |
+| IT         |
+
+---
+**Query #56**
+
+    SELECT DISTINCT o.CustomerID
+    FROM OnlineOrders o
+    INNER JOIN StoreOrders s
+    ON o.CustomerID = s.CustomerID;
+
+| CustomerID |
+| ---------- |
+| 5          |
+| 7          |
+| 2          |
+| 3          |
+
+---
+**Query #57**
+
+    SELECT c.EmployeeID, c.EmployeeName
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.EmployeeID = f.EmployeeID;
+
+| EmployeeID | EmployeeName |
+| ---------- | ------------ |
+| 105        | Michael      |
+| 106        | Olivia       |
+
+---
+**Query #58**
+
+    SELECT DISTINCT c.Department
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.Department = f.Department;
+
+| Department |
+| ---------- |
+| Sales      |
+| Marketing  |
+| HR         |
+| Finance    |
+| IT         |
+
+---
+**Query #59**
+
+    SELECT d.CustomerName
+    FROM DomesticCustomers d
+    INNER JOIN InternationalCustomers i
+    ON d.CustomerID = i.CustomerID;
+
+| CustomerName     |
+| ---------------- |
+| Sunrise Inc      |
+| Bright Solutions |
+
+---
+**Query #60**
+
+    SELECT DISTINCT c.Salary
+    FROM CurrentEmployees c
+    INNER JOIN FormerEmployees f
+    ON c.Salary = f.Salary;
+
+| Salary  |
+| ------- |
+| 55000.0 |
+| 48000.0 |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/)
