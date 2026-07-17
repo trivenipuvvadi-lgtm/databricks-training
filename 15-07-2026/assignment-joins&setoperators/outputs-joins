@@ -1,0 +1,1580 @@
+**Schema (MySQL v9)**
+
+    
+    CREATE TABLE Departments (
+        DepartmentID INT PRIMARY KEY,
+        DepartmentName VARCHAR(50),
+        Location VARCHAR(50)
+    );
+    
+    INSERT INTO Departments VALUES
+    (1,'HR','New York'),
+    (2,'Finance','Chicago'),
+    (3,'IT','Dallas'),
+    (4,'Marketing','Boston'),
+    (5,'Sales','Seattle'),
+    (6,'Operations','Atlanta');
+    
+    
+    
+    CREATE TABLE Employees (
+        EmployeeID INT PRIMARY KEY,
+        EmployeeName VARCHAR(50),
+        DepartmentID INT,
+        Salary DECIMAL(10,2),
+        ManagerID INT,
+        JoiningDate DATE
+    );
+    
+    INSERT INTO Employees VALUES
+    (101,'John',1,50000,NULL,'2020-01-15'),
+    (102,'Emma',2,65000,101,'2021-03-10'),
+    (103,'David',3,70000,101,'2019-07-22'),
+    (104,'Sophia',3,72000,103,'2022-05-01'),
+    (105,'Michael',5,55000,102,'2021-09-18'),
+    (106,'Olivia',NULL,48000,102,'2023-01-12'),
+    (107,'James',4,60000,103,'2022-10-20'),
+    (108,'William',7,75000,101,'2020-08-11'),
+    (109,'Ava',NULL,52000,NULL,'2024-02-15'),
+    (110,'Isabella',5,68000,105,'2021-06-05');
+    
+    
+    CREATE TABLE Projects (
+        ProjectID INT PRIMARY KEY,
+        ProjectName VARCHAR(50),
+        DepartmentID INT,
+        Budget DECIMAL(12,2)
+    );
+    
+    INSERT INTO Projects VALUES
+    (201,'Payroll System',1,150000),
+    (202,'Audit System',2,200000),
+    (203,'Website Redesign',4,100000),
+    (204,'ERP Upgrade',3,500000),
+    (205,'Sales Dashboard',5,175000),
+    (206,'Automation',6,250000),
+    (207,'AI Chatbot',8,300000);
+    
+    
+    CREATE TABLE EmployeeProjects (
+        EmployeeID INT,
+        ProjectID INT
+    );
+    
+    INSERT INTO EmployeeProjects VALUES
+    (101,201),
+    (102,202),
+    (103,204),
+    (104,204),
+    (105,205),
+    (107,203),
+    (110,205),
+    (103,207),
+    (108,207),
+    (109,202);
+
+---
+
+**Query #1**
+
+    SELECT e.EmployeeName, d.DepartmentName
+    FROM Employees e
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID;
+
+| EmployeeName | DepartmentName |
+| ------------ | -------------- |
+| John         | HR             |
+| Emma         | Finance        |
+| David        | IT             |
+| Sophia       | IT             |
+| Michael      | Sales          |
+| James        | Marketing      |
+| Isabella     | Sales          |
+
+---
+**Query #2**
+
+    SELECT p.ProjectName, d.DepartmentName
+    FROM Projects p
+    INNER JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID;
+
+| ProjectName      | DepartmentName |
+| ---------------- | -------------- |
+| Payroll System   | HR             |
+| Audit System     | Finance        |
+| Website Redesign | Marketing      |
+| ERP Upgrade      | IT             |
+| Sales Dashboard  | Sales          |
+| Automation       | Operations     |
+
+---
+**Query #3**
+
+    SELECT e.EmployeeName, p.ProjectName
+    FROM Employees e
+    INNER JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    INNER JOIN Projects p
+    ON ep.ProjectID = p.ProjectID;
+
+| EmployeeName | ProjectName      |
+| ------------ | ---------------- |
+| John         | Payroll System   |
+| Emma         | Audit System     |
+| David        | ERP Upgrade      |
+| Sophia       | ERP Upgrade      |
+| Michael      | Sales Dashboard  |
+| James        | Website Redesign |
+| Isabella     | Sales Dashboard  |
+| David        | AI Chatbot       |
+| William      | AI Chatbot       |
+| Ava          | Audit System     |
+
+---
+**Query #4**
+
+    SELECT e.EmployeeName, e.Salary, d.Location
+    FROM Employees e
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID;
+
+| EmployeeName | Salary  | Location |
+| ------------ | ------- | -------- |
+| John         | 50000.0 | New York |
+| Emma         | 65000.0 | Chicago  |
+| David        | 70000.0 | Dallas   |
+| Sophia       | 72000.0 | Dallas   |
+| Michael      | 55000.0 | Seattle  |
+| James        | 60000.0 | Boston   |
+| Isabella     | 68000.0 | Seattle  |
+
+---
+**Query #5**
+
+    SELECT e.EmployeeID, e.EmployeeName, p.ProjectName
+    FROM Employees e
+    INNER JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    INNER JOIN Projects p
+    ON ep.ProjectID = p.ProjectID;
+
+| EmployeeID | EmployeeName | ProjectName      |
+| ---------- | ------------ | ---------------- |
+| 101        | John         | Payroll System   |
+| 102        | Emma         | Audit System     |
+| 103        | David        | ERP Upgrade      |
+| 104        | Sophia       | ERP Upgrade      |
+| 105        | Michael      | Sales Dashboard  |
+| 107        | James        | Website Redesign |
+| 110        | Isabella     | Sales Dashboard  |
+| 103        | David        | AI Chatbot       |
+| 108        | William      | AI Chatbot       |
+| 109        | Ava          | Audit System     |
+
+---
+**Query #6**
+
+    SELECT e.EmployeeName, d.DepartmentName
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID;
+
+| EmployeeName | DepartmentName |
+| ------------ | -------------- |
+| John         | HR             |
+| Emma         | Finance        |
+| David        | IT             |
+| Sophia       | IT             |
+| Michael      | Sales          |
+| Olivia       |                |
+| James        | Marketing      |
+| William      |                |
+| Ava          |                |
+| Isabella     | Sales          |
+
+---
+**Query #7**
+
+    SELECT d.DepartmentName, e.EmployeeName
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID;
+
+| DepartmentName | EmployeeName |
+| -------------- | ------------ |
+| HR             | John         |
+| Finance        | Emma         |
+| IT             | Sophia       |
+| IT             | David        |
+| Marketing      | James        |
+| Sales          | Isabella     |
+| Sales          | Michael      |
+| Operations     |              |
+
+---
+**Query #8**
+
+    SELECT p.ProjectName, d.DepartmentName
+    FROM Projects p
+    LEFT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID;
+
+| ProjectName      | DepartmentName |
+| ---------------- | -------------- |
+| Payroll System   | HR             |
+| Audit System     | Finance        |
+| Website Redesign | Marketing      |
+| ERP Upgrade      | IT             |
+| Sales Dashboard  | Sales          |
+| Automation       | Operations     |
+| AI Chatbot       |                |
+
+---
+**Query #9**
+
+    SELECT e.EmployeeName, p.ProjectName
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    LEFT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID;
+
+| EmployeeName | ProjectName      |
+| ------------ | ---------------- |
+| John         | Payroll System   |
+| Emma         | Audit System     |
+| David        | AI Chatbot       |
+| David        | ERP Upgrade      |
+| Sophia       | ERP Upgrade      |
+| Michael      | Sales Dashboard  |
+| Olivia       |                  |
+| James        | Website Redesign |
+| William      | AI Chatbot       |
+| Ava          | Audit System     |
+| Isabella     | Sales Dashboard  |
+
+---
+**Query #10**
+
+    SELECT e.EmployeeName, p.ProjectName
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    LEFT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID;
+
+| EmployeeName | ProjectName      |
+| ------------ | ---------------- |
+| John         | Payroll System   |
+| Emma         | Audit System     |
+| David        | AI Chatbot       |
+| David        | ERP Upgrade      |
+| Sophia       | ERP Upgrade      |
+| Michael      | Sales Dashboard  |
+| Olivia       |                  |
+| James        | Website Redesign |
+| William      | AI Chatbot       |
+| Ava          | Audit System     |
+| Isabella     | Sales Dashboard  |
+
+---
+**Query #11**
+
+    SELECT d.DepartmentName, e.EmployeeName
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID;
+
+| DepartmentName | EmployeeName |
+| -------------- | ------------ |
+| HR             | John         |
+| Finance        | Emma         |
+| IT             | Sophia       |
+| IT             | David        |
+| Marketing      | James        |
+| Sales          | Isabella     |
+| Sales          | Michael      |
+| Operations     |              |
+
+---
+**Query #12**
+
+    SELECT p.ProjectName, e.EmployeeName
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    LEFT JOIN Employees e
+    ON ep.EmployeeID = e.EmployeeID;
+
+| ProjectName      | EmployeeName |
+| ---------------- | ------------ |
+| Payroll System   | John         |
+| Audit System     | Ava          |
+| Audit System     | Emma         |
+| Website Redesign | James        |
+| ERP Upgrade      | Sophia       |
+| ERP Upgrade      | David        |
+| Sales Dashboard  | Isabella     |
+| Sales Dashboard  | Michael      |
+| Automation       |              |
+| AI Chatbot       | William      |
+| AI Chatbot       | David        |
+
+---
+**Query #13**
+
+    SELECT d.DepartmentName, e.EmployeeName
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID;
+
+| DepartmentName | EmployeeName |
+| -------------- | ------------ |
+| HR             | John         |
+| Finance        | Emma         |
+| IT             | Sophia       |
+| IT             | David        |
+| Marketing      | James        |
+| Sales          | Isabella     |
+| Sales          | Michael      |
+| Operations     |              |
+
+---
+**Query #14**
+
+    SELECT p.ProjectName, d.DepartmentName
+    FROM Departments d
+    RIGHT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID;
+
+| ProjectName      | DepartmentName |
+| ---------------- | -------------- |
+| Payroll System   | HR             |
+| Audit System     | Finance        |
+| Website Redesign | Marketing      |
+| ERP Upgrade      | IT             |
+| Sales Dashboard  | Sales          |
+| Automation       | Operations     |
+| AI Chatbot       |                |
+
+---
+**Query #15**
+
+    SELECT p.ProjectName, e.EmployeeName
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    LEFT JOIN Employees e
+    ON ep.EmployeeID = e.EmployeeID;
+
+| ProjectName      | EmployeeName |
+| ---------------- | ------------ |
+| Payroll System   | John         |
+| Audit System     | Ava          |
+| Audit System     | Emma         |
+| Website Redesign | James        |
+| ERP Upgrade      | Sophia       |
+| ERP Upgrade      | David        |
+| Sales Dashboard  | Isabella     |
+| Sales Dashboard  | Michael      |
+| Automation       |              |
+| AI Chatbot       | William      |
+| AI Chatbot       | David        |
+
+---
+**Query #16**
+
+    SELECT e.EmployeeName, d.DepartmentName
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    UNION
+    SELECT e.EmployeeName, d.DepartmentName
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID;
+
+| EmployeeName | DepartmentName |
+| ------------ | -------------- |
+| John         | HR             |
+| Emma         | Finance        |
+| David        | IT             |
+| Sophia       | IT             |
+| Michael      | Sales          |
+| Olivia       |                |
+| James        | Marketing      |
+| William      |                |
+| Ava          |                |
+| Isabella     | Sales          |
+|              | Operations     |
+
+---
+**Query #17**
+
+    SELECT d.DepartmentName, p.ProjectName
+    FROM Departments d
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    UNION
+    SELECT d.DepartmentName, p.ProjectName
+    FROM Departments d
+    RIGHT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID;
+
+| DepartmentName | ProjectName      |
+| -------------- | ---------------- |
+| HR             | Payroll System   |
+| Finance        | Audit System     |
+| IT             | ERP Upgrade      |
+| Marketing      | Website Redesign |
+| Sales          | Sales Dashboard  |
+| Operations     | Automation       |
+|                | AI Chatbot       |
+
+---
+**Query #18**
+
+    SELECT e.EmployeeName, p.ProjectName
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    LEFT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    UNION
+    SELECT e.EmployeeName, p.ProjectName
+    FROM Employees e
+    RIGHT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID;
+
+| EmployeeName | ProjectName      |
+| ------------ | ---------------- |
+| John         | Payroll System   |
+| Emma         | Audit System     |
+| David        | AI Chatbot       |
+| David        | ERP Upgrade      |
+| Sophia       | ERP Upgrade      |
+| Michael      | Sales Dashboard  |
+| Olivia       |                  |
+| James        | Website Redesign |
+| William      | AI Chatbot       |
+| Ava          | Audit System     |
+| Isabella     | Sales Dashboard  |
+|              | Automation       |
+
+---
+**Query #19**
+
+    SELECT d.DepartmentName, e.EmployeeName
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    UNION
+    SELECT d.DepartmentName, e.EmployeeName
+    FROM Departments d
+    RIGHT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID;
+
+| DepartmentName | EmployeeName |
+| -------------- | ------------ |
+| HR             | John         |
+| Finance        | Emma         |
+| IT             | Sophia       |
+| IT             | David        |
+| Marketing      | James        |
+| Sales          | Isabella     |
+| Sales          | Michael      |
+| Operations     |              |
+|                | Olivia       |
+|                | William      |
+|                | Ava          |
+
+---
+**Query #20**
+
+    SELECT d.DepartmentName, p.ProjectName
+    FROM Departments d
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    UNION
+    SELECT d.DepartmentName, p.ProjectName
+    FROM Departments d
+    RIGHT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID;
+
+| DepartmentName | ProjectName      |
+| -------------- | ---------------- |
+| HR             | Payroll System   |
+| Finance        | Audit System     |
+| IT             | ERP Upgrade      |
+| Marketing      | Website Redesign |
+| Sales          | Sales Dashboard  |
+| Operations     | Automation       |
+|                | AI Chatbot       |
+
+---
+**Query #21**
+
+    SELECT e.EmployeeName, d.DepartmentName
+    FROM Employees e
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentName = 'IT';
+
+| EmployeeName | DepartmentName |
+| ------------ | -------------- |
+| David        | IT             |
+| Sophia       | IT             |
+
+---
+**Query #22**
+
+    SELECT e.EmployeeName, p.ProjectName, p.Budget
+    FROM Employees e
+    INNER JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    INNER JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    WHERE p.Budget > 200000;
+
+| EmployeeName | ProjectName | Budget   |
+| ------------ | ----------- | -------- |
+| David        | ERP Upgrade | 500000.0 |
+| Sophia       | ERP Upgrade | 500000.0 |
+| David        | AI Chatbot  | 300000.0 |
+| William      | AI Chatbot  | 300000.0 |
+
+---
+**Query #23**
+
+    SELECT e.EmployeeName, d.DepartmentName, p.ProjectName
+    FROM Employees e
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    INNER JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    INNER JOIN Projects p
+    ON ep.ProjectID = p.ProjectID;
+
+| EmployeeName | DepartmentName | ProjectName      |
+| ------------ | -------------- | ---------------- |
+| John         | HR             | Payroll System   |
+| Emma         | Finance        | Audit System     |
+| David        | IT             | ERP Upgrade      |
+| Sophia       | IT             | ERP Upgrade      |
+| Michael      | Sales          | Sales Dashboard  |
+| James        | Marketing      | Website Redesign |
+| Isabella     | Sales          | Sales Dashboard  |
+| David        | IT             | AI Chatbot       |
+
+---
+**Query #24**
+
+    SELECT d.DepartmentName, COUNT(e.EmployeeID) AS TotalEmployees
+    FROM Departments d
+    INNER JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    GROUP BY d.DepartmentName;
+
+| DepartmentName | TotalEmployees |
+| -------------- | -------------- |
+| HR             | 1              |
+| Finance        | 1              |
+| IT             | 2              |
+| Sales          | 2              |
+| Marketing      | 1              |
+
+---
+**Query #25**
+
+    SELECT d.DepartmentName, AVG(e.Salary) AS AverageSalary
+    FROM Departments d
+    INNER JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    GROUP BY d.DepartmentName;
+
+| DepartmentName | AverageSalary |
+| -------------- | ------------- |
+| HR             | 50000.0       |
+| Finance        | 65000.0       |
+| IT             | 71000.0       |
+| Sales          | 61500.0       |
+| Marketing      | 60000.0       |
+
+---
+**Query #26**
+
+    SELECT e.EmployeeID, e.EmployeeName
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| EmployeeID | EmployeeName |
+| ---------- | ------------ |
+| 106        | Olivia       |
+| 108        | William      |
+| 109        | Ava          |
+
+---
+**Query #27**
+
+    SELECT e.EmployeeID, e.EmployeeName
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    WHERE ep.ProjectID IS NULL;
+
+| EmployeeID | EmployeeName |
+| ---------- | ------------ |
+| 106        | Olivia       |
+
+---
+**Query #28**
+
+    SELECT d.DepartmentID, d.DepartmentName
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    WHERE e.EmployeeID IS NULL;
+
+| DepartmentID | DepartmentName |
+| ------------ | -------------- |
+| 6            | Operations     |
+
+---
+**Query #29**
+
+    SELECT p.ProjectID, p.ProjectName
+    FROM Projects p
+    LEFT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| ProjectID | ProjectName |
+| --------- | ----------- |
+| 207       | AI Chatbot  |
+
+---
+**Query #30**
+
+    SELECT d.DepartmentName,
+    COUNT(e.EmployeeID) AS TotalEmployees
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    GROUP BY d.DepartmentName;
+
+| DepartmentName | TotalEmployees |
+| -------------- | -------------- |
+| HR             | 1              |
+| Finance        | 1              |
+| IT             | 2              |
+| Marketing      | 1              |
+| Sales          | 2              |
+| Operations     | 0              |
+
+---
+**Query #31**
+
+    SELECT d.DepartmentID, d.DepartmentName
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE e.EmployeeID IS NULL;
+
+| DepartmentID | DepartmentName |
+| ------------ | -------------- |
+| 6            | Operations     |
+
+---
+**Query #32**
+
+    SELECT p.ProjectID, p.ProjectName
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    WHERE ep.EmployeeID IS NULL;
+
+| ProjectID | ProjectName |
+| --------- | ----------- |
+| 206       | Automation  |
+
+---
+**Query #33**
+
+    SELECT d.DepartmentName, p.ProjectName
+    FROM Projects p
+    RIGHT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID;
+
+| DepartmentName | ProjectName      |
+| -------------- | ---------------- |
+| HR             | Payroll System   |
+| Finance        | Audit System     |
+| IT             | ERP Upgrade      |
+| Marketing      | Website Redesign |
+| Sales          | Sales Dashboard  |
+| Operations     | Automation       |
+
+---
+**Query #34**
+
+    SELECT d.DepartmentName,
+    COUNT(e.EmployeeID) AS EmployeeCount
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    GROUP BY d.DepartmentName;
+
+| DepartmentName | EmployeeCount |
+| -------------- | ------------- |
+| HR             | 1             |
+| Finance        | 1             |
+| IT             | 2             |
+| Marketing      | 1             |
+| Sales          | 2             |
+| Operations     | 0             |
+
+---
+**Query #35**
+
+    SELECT p.ProjectName, e.EmployeeName
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    LEFT JOIN Employees e
+    ON ep.EmployeeID = e.EmployeeID;
+
+| ProjectName      | EmployeeName |
+| ---------------- | ------------ |
+| Payroll System   | John         |
+| Audit System     | Ava          |
+| Audit System     | Emma         |
+| Website Redesign | James        |
+| ERP Upgrade      | Sophia       |
+| ERP Upgrade      | David        |
+| Sales Dashboard  | Isabella     |
+| Sales Dashboard  | Michael      |
+| Automation       |              |
+| AI Chatbot       | William      |
+| AI Chatbot       | David        |
+
+---
+**Query #36**
+
+    SELECT d.DepartmentName, e.EmployeeName
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    UNION
+    SELECT d.DepartmentName, e.EmployeeName
+    FROM Departments d
+    RIGHT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID;
+
+| DepartmentName | EmployeeName |
+| -------------- | ------------ |
+| HR             | John         |
+| Finance        | Emma         |
+| IT             | Sophia       |
+| IT             | David        |
+| Marketing      | James        |
+| Sales          | Isabella     |
+| Sales          | Michael      |
+| Operations     |              |
+|                | Olivia       |
+|                | William      |
+|                | Ava          |
+
+---
+**Query #37**
+
+    SELECT e.EmployeeID, e.EmployeeName
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| EmployeeID | EmployeeName |
+| ---------- | ------------ |
+| 106        | Olivia       |
+| 108        | William      |
+| 109        | Ava          |
+
+---
+**Query #38**
+
+    SELECT d.DepartmentID, d.DepartmentName
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    WHERE e.EmployeeID IS NULL;
+
+| DepartmentID | DepartmentName |
+| ------------ | -------------- |
+| 6            | Operations     |
+
+---
+**Query #39**
+
+    SELECT e.EmployeeName,
+    COALESCE(d.DepartmentName, 'No Department') AS Department
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    
+    UNION
+    
+    SELECT e.EmployeeName,
+    COALESCE(d.DepartmentName, 'No Department') AS Department
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID;
+
+| EmployeeName | Department    |
+| ------------ | ------------- |
+| John         | HR            |
+| Emma         | Finance       |
+| David        | IT            |
+| Sophia       | IT            |
+| Michael      | Sales         |
+| Olivia       | No Department |
+| James        | Marketing     |
+| William      | No Department |
+| Ava          | No Department |
+| Isabella     | Sales         |
+|              | Operations    |
+
+---
+**Query #40**
+
+    SELECT d.DepartmentName, p.ProjectName
+    FROM Departments d
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    
+    UNION
+    
+    SELECT d.DepartmentName, p.ProjectName
+    FROM Departments d
+    RIGHT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID;
+
+| DepartmentName | ProjectName      |
+| -------------- | ---------------- |
+| HR             | Payroll System   |
+| Finance        | Audit System     |
+| IT             | ERP Upgrade      |
+| Marketing      | Website Redesign |
+| Sales          | Sales Dashboard  |
+| Operations     | Automation       |
+|                | AI Chatbot       |
+
+---
+**Query #41**
+
+    SELECT d.DepartmentName,
+           e.EmployeeName,
+           e.Salary
+    FROM Employees e
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE (e.DepartmentID, e.Salary) IN (
+        SELECT DepartmentID, MAX(Salary)
+        FROM Employees
+        GROUP BY DepartmentID
+    );
+
+| DepartmentName | EmployeeName | Salary  |
+| -------------- | ------------ | ------- |
+| HR             | John         | 50000.0 |
+| Finance        | Emma         | 65000.0 |
+| IT             | Sophia       | 72000.0 |
+| Marketing      | James        | 60000.0 |
+| Sales          | Isabella     | 68000.0 |
+
+---
+**Query #42**
+
+    SELECT d.DepartmentName,
+           AVG(e.Salary) AS AverageSalary
+    FROM Employees e
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    GROUP BY d.DepartmentName
+    ORDER BY AverageSalary DESC
+    LIMIT 1;
+
+| DepartmentName | AverageSalary |
+| -------------- | ------------- |
+| IT             | 71000.0       |
+
+---
+**Query #43**
+
+    SELECT e.EmployeeName,
+           p.ProjectName,
+           p.Budget
+    FROM Employees e
+    INNER JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    INNER JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    WHERE p.Budget = (
+        SELECT MAX(Budget)
+        FROM Projects
+    );
+
+| EmployeeName | ProjectName | Budget   |
+| ------------ | ----------- | -------- |
+| David        | ERP Upgrade | 500000.0 |
+| Sophia       | ERP Upgrade | 500000.0 |
+
+---
+**Query #44**
+
+    -- 4
+    SELECT m.EmployeeName AS Manager,
+           e.EmployeeName AS Employee
+    FROM Employees e
+    INNER JOIN Employees m
+    ON e.ManagerID = m.EmployeeID;
+
+| Manager | Employee |
+| ------- | -------- |
+| John    | Emma     |
+| John    | David    |
+| David   | Sophia   |
+| Emma    | Michael  |
+| Emma    | Olivia   |
+| David   | James    |
+| John    | William  |
+| Michael | Isabella |
+
+---
+**Query #45**
+
+    SELECT e.EmployeeName,
+           COUNT(ep.ProjectID) AS TotalProjects
+    FROM Employees e
+    INNER JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    GROUP BY e.EmployeeID, e.EmployeeName
+    HAVING COUNT(ep.ProjectID) > 1;
+
+| EmployeeName | TotalProjects |
+| ------------ | ------------- |
+| David        | 2             |
+
+---
+**Query #46**
+
+    SELECT e.EmployeeName
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    WHERE ep.ProjectID IS NULL;
+
+| EmployeeName |
+| ------------ |
+| Olivia       |
+
+---
+**Query #47**
+
+    SELECT d.DepartmentName
+    FROM Departments d
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    WHERE p.ProjectID IS NULL;
+
+There are no results to be displayed.
+
+---
+**Query #48**
+
+    SELECT d.DepartmentName
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    GROUP BY d.DepartmentID, d.DepartmentName
+    HAVING COUNT(e.EmployeeID) > 0
+    AND COUNT(p.ProjectID) = 0;
+
+There are no results to be displayed.
+
+---
+**Query #49**
+
+    SELECT e.EmployeeName,
+           COUNT(ep.ProjectID) AS ProjectCount
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    GROUP BY e.EmployeeID, e.EmployeeName;
+
+| EmployeeName | ProjectCount |
+| ------------ | ------------ |
+| John         | 1            |
+| Emma         | 1            |
+| David        | 2            |
+| Sophia       | 1            |
+| Michael      | 1            |
+| Olivia       | 0            |
+| James        | 1            |
+| William      | 1            |
+| Ava          | 1            |
+| Isabella     | 1            |
+
+---
+**Query #50**
+
+    SELECT d.DepartmentName,
+           COUNT(p.ProjectID) AS ProjectCount
+    FROM Departments d
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    GROUP BY d.DepartmentID, d.DepartmentName;
+
+| DepartmentName | ProjectCount |
+| -------------- | ------------ |
+| HR             | 1            |
+| Finance        | 1            |
+| IT             | 1            |
+| Marketing      | 1            |
+| Sales          | 1            |
+| Operations     | 1            |
+
+---
+**Query #51**
+
+    SELECT p.ProjectName
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    WHERE ep.EmployeeID IS NULL;
+
+| ProjectName |
+| ----------- |
+| Automation  |
+
+---
+**Query #52**
+
+    SELECT d.DepartmentName
+    FROM Projects p
+    RIGHT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID
+    WHERE p.ProjectID IS NULL;
+
+There are no results to be displayed.
+
+---
+**Query #53**
+
+    SELECT p.ProjectName
+    FROM Projects p
+    LEFT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| ProjectName |
+| ----------- |
+| AI Chatbot  |
+
+---
+**Query #54**
+
+    SELECT e.EmployeeName
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE e.DepartmentID IS NOT NULL
+    AND d.DepartmentID IS NULL;
+
+| EmployeeName |
+| ------------ |
+| William      |
+
+---
+**Query #55**
+
+    SELECT d.DepartmentName,
+           COUNT(e.EmployeeID) AS EmployeeCount
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    GROUP BY d.DepartmentID, d.DepartmentName;
+
+| DepartmentName | EmployeeCount |
+| -------------- | ------------- |
+| HR             | 1             |
+| Finance        | 1             |
+| IT             | 2             |
+| Marketing      | 1             |
+| Sales          | 2             |
+| Operations     | 0             |
+
+---
+**Query #56**
+
+    SELECT e.*
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| EmployeeID | EmployeeName | DepartmentID | Salary  | ManagerID | JoiningDate |
+| ---------- | ------------ | ------------ | ------- | --------- | ----------- |
+| 106        | Olivia       |              | 48000.0 | 102       | 2023-01-12  |
+| 108        | William      | 7            | 75000.0 | 101       | 2020-08-11  |
+| 109        | Ava          |              | 52000.0 |           | 2024-02-15  |
+
+---
+**Query #57**
+
+    SELECT d.*
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    WHERE e.EmployeeID IS NULL;
+
+| DepartmentID | DepartmentName | Location |
+| ------------ | -------------- | -------- |
+| 6            | Operations     | Atlanta  |
+
+---
+**Query #58**
+
+    SELECT e.*
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    WHERE ep.EmployeeID IS NULL;
+
+| EmployeeID | EmployeeName | DepartmentID | Salary  | ManagerID | JoiningDate |
+| ---------- | ------------ | ------------ | ------- | --------- | ----------- |
+| 106        | Olivia       |              | 48000.0 | 102       | 2023-01-12  |
+
+---
+**Query #59**
+
+    SELECT d.*
+    FROM Departments d
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    WHERE p.DepartmentID IS NULL;
+
+There are no results to be displayed.
+
+---
+**Query #60**
+
+    SELECT p.*
+    FROM Projects p
+    LEFT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| ProjectID | ProjectName | DepartmentID | Budget   |
+| --------- | ----------- | ------------ | -------- |
+| 207       | AI Chatbot  | 8            | 300000.0 |
+
+---
+**Query #61**
+
+    SELECT d.*
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE e.EmployeeID IS NULL;
+
+| DepartmentID | DepartmentName | Location |
+| ------------ | -------------- | -------- |
+| 6            | Operations     | Atlanta  |
+
+---
+**Query #62**
+
+    SELECT p.*
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    WHERE ep.EmployeeID IS NULL;
+
+| ProjectID | ProjectName | DepartmentID | Budget   |
+| --------- | ----------- | ------------ | -------- |
+| 206       | Automation  | 6            | 250000.0 |
+
+---
+**Query #63**
+
+    SELECT d.*
+    FROM Projects p
+    RIGHT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID
+    WHERE p.ProjectID IS NULL;
+
+There are no results to be displayed.
+
+---
+**Query #64**
+
+    SELECT e.*
+    FROM Departments d
+    RIGHT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| EmployeeID | EmployeeName | DepartmentID | Salary  | ManagerID | JoiningDate |
+| ---------- | ------------ | ------------ | ------- | --------- | ----------- |
+| 106        | Olivia       |              | 48000.0 | 102       | 2023-01-12  |
+| 108        | William      | 7            | 75000.0 | 101       | 2020-08-11  |
+| 109        | Ava          |              | 52000.0 |           | 2024-02-15  |
+
+---
+**Query #65**
+
+    SELECT p.*
+    FROM Departments d
+    RIGHT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| ProjectID | ProjectName | DepartmentID | Budget   |
+| --------- | ----------- | ------------ | -------- |
+| 207       | AI Chatbot  | 8            | 300000.0 |
+
+---
+**Query #66**
+
+    SELECT e.EmployeeID,
+           e.EmployeeName,
+           d.DepartmentID,
+           d.DepartmentName
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL
+    
+    UNION
+    
+    SELECT e.EmployeeID,
+           e.EmployeeName,
+           d.DepartmentID,
+           d.DepartmentName
+    FROM Employees e
+    RIGHT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE e.EmployeeID IS NULL;
+
+| EmployeeID | EmployeeName | DepartmentID | DepartmentName |
+| ---------- | ------------ | ------------ | -------------- |
+| 106        | Olivia       |              |                |
+| 108        | William      |              |                |
+| 109        | Ava          |              |                |
+|            |              | 6            | Operations     |
+
+---
+**Query #67**
+
+    SELECT d.DepartmentID,
+           d.DepartmentName,
+           p.ProjectID,
+           p.ProjectName
+    FROM Departments d
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    WHERE p.ProjectID IS NULL
+    
+    UNION
+    
+    SELECT d.DepartmentID,
+           d.DepartmentName,
+           p.ProjectID,
+           p.ProjectName
+    FROM Departments d
+    RIGHT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| DepartmentID | DepartmentName | ProjectID | ProjectName |
+| ------------ | -------------- | --------- | ----------- |
+|              |                | 207       | AI Chatbot  |
+
+---
+**Query #68**
+
+    SELECT e.EmployeeID,
+           e.EmployeeName,
+           p.ProjectID,
+           p.ProjectName
+    FROM Employees e
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    LEFT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    WHERE p.ProjectID IS NULL
+    
+    UNION
+    
+    SELECT e.EmployeeID,
+           e.EmployeeName,
+           p.ProjectID,
+           p.ProjectName
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    LEFT JOIN Employees e
+    ON ep.EmployeeID = e.EmployeeID
+    WHERE e.EmployeeID IS NULL;
+
+| EmployeeID | EmployeeName | ProjectID | ProjectName |
+| ---------- | ------------ | --------- | ----------- |
+| 106        | Olivia       |           |             |
+|            |              | 206       | Automation  |
+
+---
+**Query #69**
+
+    SELECT e.*
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL
+    
+    UNION
+    
+    SELECT e.*
+    FROM Departments d
+    RIGHT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    WHERE d.DepartmentID IS NULL;
+
+| EmployeeID | EmployeeName | DepartmentID | Salary  | ManagerID | JoiningDate |
+| ---------- | ------------ | ------------ | ------- | --------- | ----------- |
+| 106        | Olivia       |              | 48000.0 | 102       | 2023-01-12  |
+| 108        | William      | 7            | 75000.0 | 101       | 2020-08-11  |
+| 109        | Ava          |              | 52000.0 |           | 2024-02-15  |
+
+---
+**Query #70**
+
+    SELECT p.*
+    FROM Projects p
+    LEFT JOIN Departments d
+    ON p.DepartmentID = d.DepartmentID
+    WHERE d.DepartmentID IS NULL
+    
+    UNION
+    
+    SELECT p.*
+    FROM EmployeeProjects ep
+    RIGHT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    WHERE ep.EmployeeID IS NULL;
+
+| ProjectID | ProjectName | DepartmentID | Budget   |
+| --------- | ----------- | ------------ | -------- |
+| 207       | AI Chatbot  | 8            | 300000.0 |
+| 206       | Automation  | 6            | 250000.0 |
+
+---
+**Query #71**
+
+    SELECT d.DepartmentName,
+           MAX(p.Budget) AS HighestBudget
+    FROM Departments d
+    INNER JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    GROUP BY d.DepartmentID, d.DepartmentName
+    ORDER BY HighestBudget DESC
+    LIMIT 1;
+
+| DepartmentName | HighestBudget |
+| -------------- | ------------- |
+| IT             | 500000.0      |
+
+---
+**Query #72**
+
+    SELECT e.EmployeeName,
+           d.DepartmentName
+    FROM Employees e
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    LEFT JOIN Projects p
+    ON d.DepartmentID = p.DepartmentID
+    WHERE p.ProjectID IS NULL;
+
+There are no results to be displayed.
+
+---
+**Query #73**
+
+    SELECT p.ProjectName,
+           COUNT(ep.EmployeeID) AS EmployeeCount
+    FROM Projects p
+    INNER JOIN EmployeeProjects ep
+    ON p.ProjectID = ep.ProjectID
+    GROUP BY p.ProjectID, p.ProjectName
+    HAVING COUNT(ep.EmployeeID) > 1;
+
+| ProjectName     | EmployeeCount |
+| --------------- | ------------- |
+| Audit System    | 2             |
+| ERP Upgrade     | 2             |
+| Sales Dashboard | 2             |
+| AI Chatbot      | 2             |
+
+---
+**Query #74**
+
+    SELECT e.EmployeeName,
+           d.DepartmentName AS EmployeeDepartment,
+           p.ProjectName,
+           pd.DepartmentName AS ProjectDepartment
+    FROM Employees e
+    INNER JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    INNER JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    INNER JOIN Departments pd
+    ON p.DepartmentID = pd.DepartmentID
+    INNER JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    WHERE e.DepartmentID <> p.DepartmentID;
+
+There are no results to be displayed.
+
+---
+**Query #75**
+
+    SELECT d.DepartmentName
+    FROM Departments d
+    INNER JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    GROUP BY d.DepartmentID, d.DepartmentName
+    HAVING COUNT(e.EmployeeID) = COUNT(ep.EmployeeID);
+
+| DepartmentName |
+| -------------- |
+| HR             |
+| Finance        |
+| IT             |
+| Sales          |
+| Marketing      |
+
+---
+**Query #76**
+
+    SELECT EmployeeName,
+           ManagerID
+    FROM Employees
+    WHERE ManagerID IN (
+        SELECT ManagerID
+        FROM Employees
+        WHERE ManagerID IS NOT NULL
+        GROUP BY ManagerID
+        HAVING COUNT(*) > 1
+    );
+
+| EmployeeName | ManagerID |
+| ------------ | --------- |
+| Emma         | 101       |
+| David        | 101       |
+| Sophia       | 103       |
+| Michael      | 102       |
+| Olivia       | 102       |
+| James        | 103       |
+| William      | 101       |
+
+---
+**Query #77**
+
+    SELECT d.DepartmentName
+    FROM Departments d
+    LEFT JOIN Employees e
+    ON d.DepartmentID = e.DepartmentID
+    WHERE e.ManagerID IS NULL;
+
+| DepartmentName |
+| -------------- |
+| HR             |
+| Operations     |
+
+---
+**Query #78**
+
+    SELECT m.EmployeeName AS Manager,
+           COUNT(e.EmployeeID) AS EmployeeCount
+    FROM Employees e
+    INNER JOIN Employees m
+    ON e.ManagerID = m.EmployeeID
+    GROUP BY m.EmployeeID, m.EmployeeName
+    HAVING COUNT(e.EmployeeID) > 3;
+
+There are no results to be displayed.
+
+---
+**Query #79**
+
+    SELECT e.EmployeeName,
+           e.JoiningDate,
+           m.EmployeeName AS Manager,
+           m.JoiningDate AS ManagerJoiningDate
+    FROM Employees e
+    INNER JOIN Employees m
+    ON e.ManagerID = m.EmployeeID
+    WHERE e.JoiningDate < m.JoiningDate;
+
+| EmployeeName | JoiningDate | Manager | ManagerJoiningDate |
+| ------------ | ----------- | ------- | ------------------ |
+| David        | 2019-07-22  | John    | 2020-01-15         |
+| Isabella     | 2021-06-05  | Michael | 2021-09-18         |
+
+---
+**Query #80**
+
+    SELECT e.EmployeeName,
+           d.DepartmentName,
+           p.ProjectName,
+           p.Budget,
+           m.EmployeeName AS ManagerName,
+           e.Salary,
+           d.Location
+    FROM Employees e
+    LEFT JOIN Departments d
+    ON e.DepartmentID = d.DepartmentID
+    LEFT JOIN EmployeeProjects ep
+    ON e.EmployeeID = ep.EmployeeID
+    LEFT JOIN Projects p
+    ON ep.ProjectID = p.ProjectID
+    LEFT JOIN Employees m
+    ON e.ManagerID = m.EmployeeID;
+
+| EmployeeName | DepartmentName | ProjectName      | Budget   | ManagerName | Salary  | Location |
+| ------------ | -------------- | ---------------- | -------- | ----------- | ------- | -------- |
+| John         | HR             | Payroll System   | 150000.0 |             | 50000.0 | New York |
+| Emma         | Finance        | Audit System     | 200000.0 | John        | 65000.0 | Chicago  |
+| David        | IT             | AI Chatbot       | 300000.0 | John        | 70000.0 | Dallas   |
+| David        | IT             | ERP Upgrade      | 500000.0 | John        | 70000.0 | Dallas   |
+| Sophia       | IT             | ERP Upgrade      | 500000.0 | David       | 72000.0 | Dallas   |
+| Michael      | Sales          | Sales Dashboard  | 175000.0 | Emma        | 55000.0 | Seattle  |
+| Olivia       |                |                  |          | Emma        | 48000.0 |          |
+| James        | Marketing      | Website Redesign | 100000.0 | David       | 60000.0 | Boston   |
+| William      |                | AI Chatbot       | 300000.0 | John        | 75000.0 |          |
+| Ava          |                | Audit System     | 200000.0 |             | 52000.0 |          |
+| Isabella     | Sales          | Sales Dashboard  | 175000.0 | Michael     | 68000.0 | Seattle  |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/)
