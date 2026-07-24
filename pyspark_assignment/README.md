@@ -11,10 +11,6 @@ The assignment uses manually created DataFrames instead of external datasets and
 ## Platform
 
 - Databricks Community Edition
-- Apache Spark
-- PySpark
-- Python
-
 ---
 
 ## DataFrames Used
