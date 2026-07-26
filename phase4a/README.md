@@ -97,6 +97,4 @@ Through this phase, I learned how to:
 
 **Triveni Puvvadi**
 
-B.Tech – Computer Science and Business Systems (CSBS)
 
-Vishnu Institute of Technology
