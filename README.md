@@ -7,21 +7,15 @@
 
 ---
 
-## About This Repository
+# About This Repository
 
-This repository contains my hands-on practice, assignments, and learning progress completed during **Databricks Training** using **Databricks Community Edition**.
+This repository contains my hands-on practice, assignments, and learning progress completed during **Databricks Training**.
 
-It includes SQL practice, PySpark DataFrame operations, ETL pipelines, customer analytics, and mini projects. Each folder represents a specific week, phase, or assignment completed during the training.
-
----
-
-## Platform
-
-- Databricks Community Edition
+I used **DB Fiddle** to practice SQL queries and **Databricks Community Edition** to perform PySpark assignments, ETL pipelines, and mini projects. The repository includes SQL practice, PySpark DataFrame operations, business scenarios, and data engineering concepts.
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```
 databricks-training/
@@ -41,9 +35,9 @@ databricks-training/
 
 ---
 
-## Repository Contents
+# Repository Contents
 
-### Week 1 – SQL Foundations
+## Week 1 – SQL Foundations
 
 - Basic SQL Queries
 - Filtering and Sorting
@@ -53,7 +47,9 @@ databricks-training/
 - String Functions
 - Joins and Subqueries
 
-### Week 2 – Advanced SQL
+---
+
+## Week 2 – Advanced SQL
 
 - CMS-based SQL Queries
 - SQL Joins
@@ -61,7 +57,9 @@ databricks-training/
 - Regular Expressions
 - String and Numeric Extraction
 
-### SQL Assignment
+---
+
+## SQL Assignment
 
 - Employee Table Queries
 - Data Retrieval
@@ -71,7 +69,9 @@ databricks-training/
 - Sorting
 - Pattern Matching
 
-### SQL Joins & Set Operators
+---
+
+## SQL Joins & Set Operators
 
 - INNER JOIN
 - LEFT JOIN
@@ -86,7 +86,9 @@ databricks-training/
 - EXCEPT (MySQL Alternative)
 - INTERSECT (MySQL Alternative)
 
-### PySpark Assignment
+---
+
+## PySpark Assignment
 
 - DataFrame Creation
 - Select Operations
@@ -103,7 +105,9 @@ databricks-training/
 - Window Functions
 - Advanced DataFrame Transformations
 
-### Phase 2 – SQL to PySpark
+---
+
+## Phase 2 – SQL to PySpark
 
 - Reading CSV Files
 - Data Cleaning
@@ -111,7 +115,9 @@ databricks-training/
 - DataFrame Aggregations
 - Business Reports
 
-### Phase 3 – ETL Pipeline
+---
+
+## Phase 3 – ETL Pipeline
 
 - Data Extraction
 - Data Cleaning
@@ -119,25 +125,30 @@ databricks-training/
 - Daily Sales Report
 - City-wise Revenue
 - Repeat Customers
+- Highest Spending Customers
 - Final Reporting Table
 
-### Phase 4 – PySpark Mini Project
+---
+
+## Phase 4 – PySpark Mini Project
 
 - End-to-End ETL Pipeline
 - Customer Analytics
 - Business Reports
 - CSV Export
 
-### Phase 4A – Customer Segmentation
+---
+
+## Phase 4A – Customer Segmentation
 
 - Customer Spending Analysis
 - Gold, Silver, Bronze Segmentation
 - Segment Distribution
-- Quantile-based Segmentation
+- Quantile-Based Segmentation
 
 ---
 
-## SQL Topics Covered
+# SQL Topics Covered
 
 - SELECT
 - WHERE
@@ -155,7 +166,7 @@ databricks-training/
 
 ---
 
-## PySpark Topics Covered
+# PySpark Topics Covered
 
 - SparkSession
 - DataFrame Operations
@@ -172,19 +183,19 @@ databricks-training/
 
 ---
 
-## Tools & Technologies Used
+# Tools & Technologies Used
 
-- Databricks Community Edition
+- Databricks Community Edition (PySpark)
+- DB Fiddle (SQL Practice)
 - SQL
 - PySpark
 - MySQL
-- DB Fiddle
 - Git
 - GitHub
 
 ---
 
-## Skills Developed
+# Skills Developed
 
 - SQL Query Writing
 - PySpark Programming
@@ -195,11 +206,11 @@ databricks-training/
 - Customer Segmentation
 - Report Generation
 - Databricks Notebook Development
-- GitHub Repository Management
+- Git & GitHub Version Control
 
 ---
 
-## Learning Outcomes
+# Learning Outcomes
 
 Through this training, I learned how to:
 
@@ -215,12 +226,12 @@ Through this training, I learned how to:
 
 ---
 
-## Progress Status
+# Progress Status
 
 - ✅ Week 1 – SQL Foundations
 - ✅ Week 2 – Advanced SQL
 - ✅ SQL Assignment
-- ✅ SQL Joins & Set Operators
+- ✅ SQL Joins & Set Operators Assignment
 - ✅ PySpark Assignment
 - ✅ Phase 2 – SQL to PySpark
 - ✅ Phase 3 – ETL Pipeline
@@ -229,13 +240,13 @@ Through this training, I learned how to:
 
 ---
 
-## Notes
+# Notes
 
-This repository is continuously updated as I progress through my Databricks training. It serves as a record of my practical learning in SQL, PySpark, ETL development, and data engineering concepts through structured assignments and hands-on exercises.
+This repository is continuously updated as I progress through my Databricks training. It serves as a collection of my SQL practice, PySpark assignments, ETL pipelines, and mini projects, demonstrating my practical understanding of data engineering concepts.
 
 ---
 
-## Author
+# Author
 
 **Triveni Puvvadi**
 
