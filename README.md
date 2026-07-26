@@ -1,77 +1,244 @@
 # Databricks Training Repository
 
-👤 Name: Triveni Puvvadi  
-📘 Course: Databricks Training (Data Engineering)
+## 👤 Author
+
+**Name:** Triveni Puvvadi  
+**Course:** Databricks Training (Data Engineering)
 
 ---
 
 ## About This Repository
 
-This repository contains daily practice, assignments, and learning progress completed as part of the Databricks Training program. It includes SQL practice, data engineering concepts, schema based exercises, and hands on problem solving.
+This repository contains my hands-on practice, assignments, and learning progress completed during **Databricks Training** using **Databricks Community Edition**.
+
+It includes SQL practice, PySpark DataFrame operations, ETL pipelines, customer analytics, and mini projects. Each folder represents a specific week, phase, or assignment completed during the training.
+
+---
+
+## Platform
+
+- Databricks Community Edition
 
 ---
 
 ## Repository Structure
 
-- Week wise organization
-- Each week contains daily folders such as `day1`, `day2`, and so on
-- Each day includes practice files such as:
-  - SQL scripts
-  - Query solutions
-  - Schema files
-  - Outputs
-  - README files describing the learning
+```
+databricks-training/
+│
+├── 14-07-2026/
+├── 15-07-2026/
+│   └── assignment-joins&setoperators/
+├── week1/
+├── week2/
+├── pyspark_assignment/
+├── phase2/
+├── phase3/
+├── phase4/
+├── phase4a/
+└── README.md
+```
 
 ---
 
-## Week-wise Progress
+## Repository Contents
 
-### Week 1: SQL Foundations
+### Week 1 – SQL Foundations
 
-- Practiced basic SQL queries using `SELECT`, `WHERE`, and column filtering
-- Worked on string matching using `LIKE`, `SUBSTR`, and `CHAR_LENGTH`
-- Solved date based queries using `YEAR`, `MONTH`, and date functions
-- Practiced aggregate functions such as `SUM`, `AVG`, `MIN`, `MAX`, and `COUNT`
-- Learned `GROUP BY`, `HAVING`, and `ORDER BY`
-- Worked with `JOIN` queries, subqueries, and correlated queries
-- Explored moderate level SQL problems involving departments, employees, and projects
+- Basic SQL Queries
+- Filtering and Sorting
+- Aggregate Functions
+- GROUP BY and HAVING
+- Date Functions
+- String Functions
+- Joins and Subqueries
 
-### Week 2: Intermediate SQL Practice
+### Week 2 – Advanced SQL
 
-- Worked on CMS based SQL queries using starter schemas
-- Practiced different types of joins with schema based exercises
-- Learned NULL handling using `IFNULL`, `COALESCE`, and `NULLIF`
-- Practiced regular expressions using `REGEXP_SUBSTR` for extracting text and numbers
-- Solved string and numeric pattern extraction problems from mixed data
+- CMS-based SQL Queries
+- SQL Joins
+- NULL Handling
+- Regular Expressions
+- String and Numeric Extraction
+
+### SQL Assignment
+
+- Employee Table Queries
+- Data Retrieval
+- Filtering
+- Grouping
+- Aggregations
+- Sorting
+- Pattern Matching
+
+### SQL Joins & Set Operators
+
+- INNER JOIN
+- LEFT JOIN
+- RIGHT JOIN
+- FULL OUTER JOIN (MySQL Alternative)
+- SELF JOIN
+- LEFT ANTI JOIN
+- RIGHT ANTI JOIN
+- FULL ANTI JOIN
+- UNION
+- UNION ALL
+- EXCEPT (MySQL Alternative)
+- INTERSECT (MySQL Alternative)
+
+### PySpark Assignment
+
+- DataFrame Creation
+- Select Operations
+- withColumn()
+- withColumnRenamed()
+- Filter Operations
+- Sorting
+- Handling NULL Values
+- Date Functions
+- Joins
+- Union Operations
+- String Functions
+- Aggregations
+- Window Functions
+- Advanced DataFrame Transformations
+
+### Phase 2 – SQL to PySpark
+
+- Reading CSV Files
+- Data Cleaning
+- SQL to PySpark Conversion
+- DataFrame Aggregations
+- Business Reports
+
+### Phase 3 – ETL Pipeline
+
+- Data Extraction
+- Data Cleaning
+- Data Validation
+- Daily Sales Report
+- City-wise Revenue
+- Repeat Customers
+- Final Reporting Table
+
+### Phase 4 – PySpark Mini Project
+
+- End-to-End ETL Pipeline
+- Customer Analytics
+- Business Reports
+- CSV Export
+
+### Phase 4A – Customer Segmentation
+
+- Customer Spending Analysis
+- Gold, Silver, Bronze Segmentation
+- Segment Distribution
+- Quantile-based Segmentation
+
+---
+
+## SQL Topics Covered
+
+- SELECT
+- WHERE
+- GROUP BY
+- HAVING
+- ORDER BY
+- LIMIT
+- DISTINCT
+- Aggregate Functions
+- Joins
+- Set Operators
+- NULL Handling
+- Regular Expressions
+- String Functions
+
+---
+
+## PySpark Topics Covered
+
+- SparkSession
+- DataFrame Operations
+- Data Cleaning
+- Filtering
+- Sorting
+- Aggregations
+- Joins
+- Union Operations
+- Date Functions
+- String Functions
+- Window Functions
+- ETL Pipeline Development
 
 ---
 
 ## Tools & Technologies Used
 
+- Databricks Community Edition
 - SQL
-- Databricks
+- PySpark
+- MySQL
 - DB Fiddle
+- Git
 - GitHub
 
 ---
 
-## Learning Goals
+## Skills Developed
 
-- Build strong SQL fundamentals
-- Understand schema based querying
-- Practice joins, subqueries, and NULL handling
-- Improve regex and string processing skills in SQL
-- Strengthen data engineering basics through hands on exercises
+- SQL Query Writing
+- PySpark Programming
+- Data Cleaning
+- Data Transformation
+- ETL Pipeline Development
+- Business Data Analysis
+- Customer Segmentation
+- Report Generation
+- Databricks Notebook Development
+- GitHub Repository Management
+
+---
+
+## Learning Outcomes
+
+Through this training, I learned how to:
+
+- Write efficient SQL queries.
+- Perform joins and set operations.
+- Build and transform PySpark DataFrames.
+- Handle missing and duplicate data.
+- Apply date, string, and aggregation functions.
+- Develop ETL pipelines using PySpark.
+- Generate business reports from structured datasets.
+- Perform customer segmentation and analytical reporting.
+- Organize projects and documentation using GitHub.
 
 ---
 
 ## Progress Status
 
-- Week 1 : Completed
-- Week 2 : In Progress
+- ✅ Week 1 – SQL Foundations
+- ✅ Week 2 – Advanced SQL
+- ✅ SQL Assignment
+- ✅ SQL Joins & Set Operators
+- ✅ PySpark Assignment
+- ✅ Phase 2 – SQL to PySpark
+- ✅ Phase 3 – ETL Pipeline
+- ✅ Phase 4 – PySpark Mini Project
+- ✅ Phase 4A – Customer Segmentation
 
 ---
 
 ## Notes
 
-This repository is being updated regularly with daily practice and assignments. Each week reflects a step by step learning journey in SQL and data engineering concepts.
+This repository is continuously updated as I progress through my Databricks training. It serves as a record of my practical learning in SQL, PySpark, ETL development, and data engineering concepts through structured assignments and hands-on exercises.
+
+---
+
+## Author
+
+**Triveni Puvvadi**
+
+B.Tech – Computer Science and Business Systems (CSBS)
+
+Vishnu Institute of Technology
