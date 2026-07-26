@@ -246,10 +246,3 @@ This repository is continuously updated as I progress through my Databricks trai
 
 ---
 
-# Author
-
-**Triveni Puvvadi**
-
-B.Tech – Computer Science and Business Systems (CSBS)
-
-Vishnu Institute of Technology
